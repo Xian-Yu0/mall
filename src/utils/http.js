@@ -1,7 +1,7 @@
 // axios基础的封装
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
-import { useUserStore } from '@/stores/userStore'
+// import { useUserStore } from '@/stores/userStore'
 const httpRequest = axios.create({
     baseURL: '',    // TODO
     timeout: 5000
