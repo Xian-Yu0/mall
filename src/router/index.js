@@ -7,6 +7,13 @@ import BuyerHome from '@/views/Buyer/BuyerHome.vue'
 import BuyerDiscussTable from '@/views/Buyer/BuyerDiscussTable.vue'
 import BuyerDiscuss from '@/views/Buyer/BuyerDiscuss.vue'
 import BuyerDetail from '@/views/Buyer/BuyerDetail.vue'
+import AdminLogin from '@/views/Admin/AdminLogin.vue'
+import AdminSellers from '@/views/Admin/AdminSellers.vue'
+import AdminGoods from '@/views/Admin/AdminGoods.vue'
+import AdminHome from '@/views/Admin/AdminHome.vue'
+import AdminDiscussTable from '@/views/Admin/AdminDiscussTable.vue'
+import AdminDiscuss from '@/views/Admin/AdminDiscuss.vue'
+import AdminDetail from '@/views/Admin/AdminDetail.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,11 +34,11 @@ const router = createRouter({
     //   name: 'SellerLogin',
     //   component: SellerLogin
     // },
-    // {
-    //   path: '/AdminLogin',
-    //   name: 'AdminLogin',
-    //   component: AdminLogin
-    // },
+    {
+      path: '/AdminLogin',
+      name: 'AdminLogin',
+      component: AdminLogin
+    },
     // {
     //   path: '/BuyerRegister',
     //   name: 'BuyerRegister',
@@ -57,11 +64,11 @@ const router = createRouter({
     //   name: 'SellerHome',
     //   component: SellerHome
     // },
-    // {
-    //   path: '/AdminHome',
-    //   name: 'AdminHome',
-    //   component: AdminHome
-    // },
+    {
+      path: '/AdminHome',
+      name: 'AdminHome',
+      component: AdminHome
+    },
     {
       path: '/BuyerModify',
       name: 'BuyerModify',
@@ -78,15 +85,15 @@ const router = createRouter({
       component: BuyerDiscussTable
     },
     {
-      path: '/Discuss/:id',
-      name: 'Discuss',
+      path: '/BuyerDiscuss/:id',
+      name: 'BuyerDiscuss',
       component: BuyerDiscuss
     },
     {
       path: '/BuyerDetail/:id',
       name: 'BuyerDetail',
       component: BuyerDetail
-    }
+    },
     // {
     //   path: '/SellerModify',
     //   name: 'SellerModify',
@@ -97,23 +104,32 @@ const router = createRouter({
     //   name: 'SellerShop',
     //   component: SellerShop
     // },
-    // {
-    //   path: '/AdminSellers',
-    //   name: 'AdminSellers',
-    //   component: AdminSellers
-    // },
-    // {
-    //   path: '/AdminGoods',
-    //   name: 'AdminGoods',
-    //   components: AdminGoods
-    // },
+    {
+      path: '/AdminSellers',
+      name: 'AdminSellers',
+      component: AdminSellers
+    },
+    {
+      path: '/AdminGoods',
+      name: 'AdminGoods',
+      component: AdminGoods
+    },
     // // 管理员的“查看所有主题帖”即进入论坛
-    // {
-    //   path: '/AdminDiscussTable',
-    //   name: 'AdminDiscussTable',
-    //   component: AdminDiscussTable
-    // },
-
+    {
+      path: '/AdminDiscussTable',
+      name: 'AdminDiscussTable',
+      component: AdminDiscussTable
+    },
+    {
+      path: '/AdminDiscuss/:id',
+      name: 'AdminDiscuss',
+      component: AdminDiscuss
+    },
+    {
+      path: '/AdminDetail/:id',
+      name: 'AdminDetail',
+      component: AdminDetail
+    },
     // // 查看帖子
     // {
     //   path: '/BuyerDiscussTable',

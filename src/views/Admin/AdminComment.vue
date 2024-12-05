@@ -222,9 +222,9 @@ import { useRoute } from 'vue-router';
 //         }
 //     },    
 // }
+
+
 const route = useRoute();
-
-
 const commentList = ref([])
 const getDetailComment = async () => {
     const temp = await GetDetailCommentAPI(route.params.id);

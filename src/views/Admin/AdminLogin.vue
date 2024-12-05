@@ -8,13 +8,12 @@ import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import { useRouter } from 'vue-router'
-import { useBuyerStore } from '@/stores/userInfo';
+import { useAdminStore, useBuyerStore } from '@/stores/userInfo';
 
 // 1. 准备表单对象
 const form = ref({
   account: '',
   password: '',
-  agree: true
 })
 
 // 2. 准备规则对象
@@ -25,20 +24,6 @@ const rules = {
   password: [
     { required: true, message: '密码不能为空', trigger: 'blur' },
     { min: 6, max: 14, message: '密码长度为6-14个字符', trigger: 'blur' },
-  ],
-  agree: [
-    {
-      validator: (rule, value, callback) => {
-        console.log(value)
-        // 自定义校验逻辑
-        // 勾选就通过 不勾选就不通过
-        if (value) {
-          callback()
-        } else {
-          callback(new Error('请勾选协议'))
-        }
-      }
-    }
   ]
 }
 
@@ -46,7 +31,7 @@ const rules = {
 const formRef = ref(null)
 const router = useRouter()
 
-const buyerStore = useBuyerStore();
+const adminStore = useAdminStore();
 const doLogin = () => {
   const { account, password } = form.value
   // 调用实例方法
@@ -56,11 +41,11 @@ const doLogin = () => {
     // 以valid做为判断条件 如果通过校验才执行登录逻辑
     if (valid) {
       // TODO LOGIN
-      await buyerStore.setBuyerInfo({ account, password })
+      await adminStore.setAdminInfo({ account, password })
       // 1. 提示用户
       ElMessage({ type: 'success', message: '登录成功' })
       // 2. 跳转首页
-      router.replace({ path: '/BuyerHome' })
+      router.replace({ path: '/AdminHome' })
     }
   })
 }
@@ -70,12 +55,6 @@ const doLogin = () => {
 // 1. 用户名和密码 只需要通过简单的配置（看文档的方式 - 复杂功能通过多个不同组件拆解）
 // 2. 同意协议  自定义规则  validator:(rule,value,callback)=>{}
 // 3. 统一校验  通过调用form实例的方法 validate -> true
-
-// const login = () => {
-//   router.replace('/BuyerHome')
-//   let loginInfo = {userName: form.value.account}
-//   cookie.setCookie(loginInfo)
-// }
 
 </script>
 
@@ -97,7 +76,7 @@ const doLogin = () => {
     <section class="login-section">
       <div class="wrapper">
         <nav>
-          <a href="javascript:;">普通用户登录</a>
+          <a href="javascript:;">管理员登录</a>
         </nav>
         <div class="account-box">
           <div class="form">
@@ -107,11 +86,6 @@ const doLogin = () => {
               </el-form-item>
               <el-form-item prop="password" label="密码">
                 <el-input v-model="form.password" />
-              </el-form-item>
-              <el-form-item prop="agree" label-width="22px">
-                <el-checkbox size="large" v-model="form.agree">
-                  我已同意隐私条款和服务条款
-                </el-checkbox>
               </el-form-item>
               <el-button size="large" class="subBtn" @click="doLogin()">点击登录</el-button>
             </el-form>

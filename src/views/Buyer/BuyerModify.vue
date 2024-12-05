@@ -30,7 +30,7 @@ const submitForm = async () =>
     type: 'error',
   })
   }
-  // const temp = await BuyerModifyAPI({ account, password, nickname, sex, date, desc })
+  // const temp = await BuyerModifyAPI(account, password, nickname, sex, date, desc)
 }
 
 const resetForm = () => {

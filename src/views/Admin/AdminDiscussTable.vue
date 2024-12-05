@@ -1,22 +1,17 @@
 <script setup>
-import { useBuyerStore } from '@/stores/userInfo';
-import BuyerHeader from './BuyerHeader.vue';
-import BuyerNav from './BuyerNav.vue';
-import { onMounted, ref } from 'vue';
-import { BuyerGetMyDiscussAPI, BuyerCreateDiscussAPI } from '@/apis/Buyer';
+import { useAdminStore } from '@/stores/userInfo';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import AdminNav from './AdminNav.vue';
+import AdminHeader from './AdminHeader.vue';
+import { AdminCreateDiscussAPI, AdminGetMyDiscussAPI } from '@/apis/Admin';
 import { GetDiscussListAPI } from '@/apis/Common';
 
-// import "quill/dist/quill.core.css";
-// import "quill/dist/quill.snow.css";
-// import "quill/dist/quill.bubble.css";
-// import QuillEditor from 'vue3-quill';
-
-const buyerInfo = useBuyerStore().buyerInfo;
+const adminInfo = useAdminStore().adminInfo
 const newDiscuss = ref(false);
 const input = ref({})
 const createDiscuss = async () => {
-  const account = buyerInfo.account;
+  const account = adminInfo.account;
 
   const now = new Date();
   const year = now.getFullYear();
@@ -26,35 +21,42 @@ const createDiscuss = async () => {
 
   const title = input.value.title;
   const content = input.value.content;
-
-  // const temp = await BuyerCreateDiscussAPI(account, date, title, content);
+  console.log(account);
+  console.log(title);
+  console.log(content);
+  // 需要三种分开，放入不同的表
+  const temp = await AdminCreateDiscussAPI(account, date, title, content);
 }
 
 const myDiscussList = ref([]);
 const getMyDiscuss = async () => {
-  const account = buyerInfo.account;
-  const temp = await BuyerGetMyDiscussAPI(account)
+  const account = adminInfo.account;
+  // 需要三种分开，从三种表中查询
+  const temp = await AdminGetMyDiscussAPI(account)
   myDiscussList.value = temp.result;
 }
-onMounted(()=>{getMyDiscuss();}) 
+getMyDiscuss();
 
-const DiscussList = ref([]);
+const discussList = ref([]);
 const getDiscussList = async() => {
-  const temp = await GetDiscussListAPI();
-  DiscussList.value = temp.result;
+// 不需要三种分开
+  const temp = await GetDiscussListAPI()
+  discussList.value = temp.result;
+  console.log(discussList.value);
 }
-onMounted(()=>{getDiscussList();}) 
+getDiscussList();
 
 const router = useRouter();
 const enterDiscuss = (DiscussId) => {
-  router.replace( { path: `/BuyerDiscuss/${DiscussId}`})
+  router.replace( { path: `/AdminDiscuss/${DiscussId}`})
 }
 
 </script>
 
 <template>
-    <BuyerNav></BuyerNav>
-    <BuyerHeader></BuyerHeader>
+
+<AdminNav></AdminNav>
+<AdminHeader></AdminHeader>
 <el-col :span="8" :offset="2" class="right-information" style="margin: 30px auto;">
               <el-card shadow="hover" style="width: 100%">
                 <el-row>
@@ -64,8 +66,8 @@ const enterDiscuss = (DiscussId) => {
                   </el-col>
                   <el-col :span="10" :offset="1">
                     <el-descriptions :column="1" style="margin-top: 15px;">
-                      <el-descriptions-item label="账号">{{buyerInfo.account}}</el-descriptions-item>
-                      <el-descriptions-item label="用户名">{{buyerInfo.nickname}}</el-descriptions-item>
+                      <el-descriptions-item label="账号">{{adminInfo.account}}</el-descriptions-item>
+                      <el-descriptions-item label="用户名">{{adminInfo.nickname}}</el-descriptions-item>
                       <el-descriptions-item label="已发帖子">{{myDiscussList.length}}</el-descriptions-item>
                     </el-descriptions>
                   </el-col>
@@ -83,13 +85,10 @@ const enterDiscuss = (DiscussId) => {
                     </el-row>
                     <el-row>
                       <el-col>
-                        <!-- <rich-text-editor></rich-text-editor> -->
-                        <!-- <quill-editor></quill-editor> -->
-                         <!-- <h1>aaaa</h1> -->
-                        <!-- <quill-editor ref="text" v-model="input.content" style="height: 300px"></quill-editor><h1>bbbb</h1> -->
                          <el-input type="textarea" v-model="input.content" placeholder="请输入内容" rows="8"></el-input>
                       </el-col>
                     </el-row>
+                    <!-- 文本框与 取消 确定 间的距离用下面的margin-top确定 -->
                     <div slot="footer" class="dialog-footer" style="margin-top: 3%">
                       <el-button @click="newDiscuss = false">取消</el-button>
                       <el-button type="primary" @click="createDiscuss">确定</el-button>
@@ -120,7 +119,7 @@ const enterDiscuss = (DiscussId) => {
     </el-row>
 
 
-<el-card v-for="discuss in DiscussList" shadow="hover" style="margin-bottom: 2%; width: 80%; margin: 20px auto;" >
+<el-card v-for="discuss in discussList" shadow="hover" style="margin-bottom: 2%; width: 80%; margin: 20px auto;" >
   
                 <div ><img src="../../../../demoPic/3.png" alt=""></div>
                 <div class="clearfix" style="font-size: 24px;">

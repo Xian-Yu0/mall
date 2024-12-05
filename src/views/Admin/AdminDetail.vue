@@ -1,11 +1,11 @@
 <script setup>
 import ImageView from '@/components/ImageView.vue';
-import BuyerNav from './BuyerNav.vue';
-import BuyerHeader from './BuyerHeader.vue';
-import BuyerComment from './BuyerComment.vue';
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { GetGoodDetailAPI } from '@/apis/Common';
 import { useRoute } from 'vue-router';
+import AdminNav from './AdminNav.vue';
+import AdminHeader from './AdminHeader.vue';
+import AdminComment from './AdminComment.vue'
 
 // import { getDetailAPI } from '@/apis/Detail';
 // import { onMounted, ref } from 'vue';
@@ -21,27 +21,27 @@ import { useRoute } from 'vue-router';
 // }
 
 // onMounted(() => {getDetail()})
+
 const route = useRoute();
-
-
 const goodInfo = ref({})
+
 const getGoodDetail = async () => {
   const temp = await GetGoodDetailAPI(route.params.id)
   goodInfo.value = temp.result
 }
-onMounted(()=>{getGoodDetail();}) 
+getGoodDetail();
 
 </script>
 
 <template>
-  <BuyerNav></BuyerNav>
-  <BuyerHeader></BuyerHeader>
+  <AdminNav></AdminNav>
+  <AdminHeader></AdminHeader>
   <div class="xtx-goods-page">
     <!-- 渲染模板时遇到对象的多层属性访问可能出现问题 -->
     <div class="container" v-if="true"> <!-- 在报错对数组Cannot read properties of undefined (reading '0')时使用此语法，属性值为该数组 -->
       <div class="bread-container">
         <el-breadcrumb separator=">">
-          <el-breadcrumb-item :to="{ path: '/BuyerHome' }">首页</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/AdminHome' }">首页</el-breadcrumb-item>
           <el-breadcrumb-item>{{ goodInfo.goodName }}</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
@@ -141,7 +141,7 @@ onMounted(()=>{getGoodDetail();})
       </div>
     </div>
   </div>
-  <BuyerComment v-if="b"></BuyerComment>
+  <AdminComment></AdminComment>
 </template>
 
 

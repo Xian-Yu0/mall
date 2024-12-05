@@ -1,111 +1,79 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router';
-import BuyerHeader from './BuyerHeader.vue';
-import BuyerNav from './BuyerNav.vue';
 import { onMounted, ref } from 'vue';
-import { useBuyerStore } from '@/stores/userInfo';
+import { useAdminStore } from '@/stores/userInfo';
 import { ElMessage } from 'element-plus';
-import { BuyerCreatePostAPI } from '@/apis/Buyer';
+import AdminNav from './AdminNav.vue';
+import AdminHeader from './AdminHeader.vue';
 import { DeleteDiscussAPI, DeletePostAPI, GetDiscussAPI, GetPostListAPI } from '@/apis/Common';
+import { AdminCreatePostAPI } from '@/apis/Admin';
 
 const route = useRoute();
 const router = useRouter();
-const buyerInfo = useBuyerStore().buyerInfo;
-
 const backToTable = () => {
-  router.replace( {path: '/BuyerDiscussTable'} );
+  router.replace( {path: '/AdminDiscussTable'} );
 }
 
 const discuss = ref({})
 const getDiscuss = async () => {
-  const temp = await GetDiscussAPI(route.params.id)
+  const temp = await GetDiscussAPI(route.params.id);
   discuss.value = temp.result;
-  console.log(discuss.DiscussContent)
 }
-onMounted(()=>{getDiscuss();})
+onMounted(()=>{getDiscuss();}) 
 
-
-const deleteDiscuss = async () => {
-if (buyerInfo.account == discuss.value.DiscussById)
+const adminInfo = useAdminStore().adminInfo;
+const deleteDiscuss = async () => 
 {
-  // await DeleteDiscussAPI(route.params.id)
+  await DeleteDiscussAPI(route.params.id)
+  // console.log("删除成功")
   ElMessage({
     message: '删除成功！',
     type: 'success',
   })
-  router.replace({ path : '/BuyerDiscussTable'});
+  router.replace({ path : '/AdminDiscussTable'});  
 }
-else
-{
-  ElMessage({
-    message: '您不能删除他人的帖子！',
-    type: 'error',
-  })
-}
-// else if (seller不是undefined)
-//{
-
-//}
-// if (adminInfo != undefined) 
-// {
-//   await deleteDiscussAPI(route.params.id)
-//   // console.log("删除成功")
-//   ElMessage({
-//     message: '删除成功！',
-//     type: 'success',
-//   })
-//   router.replace({ path : '/BuyerDiscussTable'});
-// }
-}
-
-const postList = ref([])
-const getPostList = async() => {
-  const temp = await GetPostListAPI(route.params.id)
-  postList.value = temp.result;
-  console.log(postList.value);
-}
-onMounted(()=>{getPostList();}) 
 
 const dialogFormVisible = ref(false);
 const postContent = ref('')
 const createPost = async () => {
-  const account = buyerInfo.account;
+  const account = adminInfo.account;
   const now = new Date();
   const year = now.getFullYear();
   const month = String(now.getMonth() + 1).padStart(2, '0');
   const day = String(now.getDate()).padStart(2, '0');
   const date = `${year}-${month}-${day}`;
   console.log(account, date, postContent.value);
-  // await BuyerCreatePostAPI(account, date, postContent)
+
+  // await AdminCreatePostAPI(account, date, postContent.value)
 }
 
-const deletePost = async (postId, postById) => {
-  if (buyerInfo.account != postById)
-{
-  ElMessage({
-    message: '您不能删除他人的回帖！',
-    type: 'error',
-  })
+const postList = ref([])
+const getPostList = async() => {
+  const id = route.params.id
+  const temp = await GetPostListAPI(id)
+  postList.value = temp.result;
+  console.log(postList.value);
 }
-else {
-  // await DeletePostAPI(postId);
-  console.log(postId, postById)
+onMounted(()=>{getPostList();})
+
+const deletePost = async (postId) => {
+  // await DeletePostAPI(postId)
+  console.log(postId)
   ElMessage({
     message: '删除成功！',
     type: 'success',
   })
-  setTimeout(() => {
+    setTimeout(() => {
     window.location.reload();  // 1.5秒后刷新页面
   }, 1500);
-}
 }
 
 </script>
 
 <template>
   <div>
-    <BuyerNav></BuyerNav>
-    <BuyerHeader></BuyerHeader>
+    <AdminNav></AdminNav>
+    <AdminHeader></AdminHeader>
     <el-container class="background">
         
       <el-aside class="aside" width="show?'64px':'300px'">
@@ -129,23 +97,12 @@ else {
                   发表于 {{ discuss.DiscussTime }} 
                 </el-row>
                 <el-row class="userName">
-
-                  <!-- <el-col v-if="postTheme.isTeacher === 1">
-                    {{postTheme.userNickName}}({{postTheme.userName}}) (教师)
-                  </el-col>
-                  <el-col v-else-if="postTheme.isTeacher === 2">
-                    {{postTheme.userNickName}}({{postTheme.userName}}) (管理员)
-                  </el-col>
-                  <el-col v-else>
-                    {{postTheme.userNickName}}({{postTheme.userName}})
-                  </el-col> -->
                   <el-col style="font-size: 19px; font-weight: 600;">
                     发帖人： {{ discuss.DiscussByName }}
                     <el-tag size="large" style=" margin-left: 10px;">
                     <span>{{ discuss.DiscussByType }}</span>
                     </el-tag>
                   </el-col>
-                  
                 </el-row>
               </el-col>
               <el-col :offset="2" :span="21" style="margin-top: -20px;">
@@ -208,7 +165,7 @@ else {
               </el-col> -->
               <el-col class="delete" :span="30" style="float: right">
                 <div>
-                  <el-link type="danger" v-on:click="deletePost(post.postId, post.postById)" style="margin-left: 1000px;">删除</el-link>
+                  <el-link type="danger" v-on:click="deletePost(post.postId)" style="margin-left: 1000px;">删除</el-link>
                 </div>
               </el-col>
             </el-row>

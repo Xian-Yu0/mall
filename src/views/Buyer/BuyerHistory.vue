@@ -1,21 +1,21 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { useBuyerStore } from '@/stores/userInfo';
-import { getBuyHistoryAPI } from '@/apis/Buyer';
+import { BuyerGetHistoryAPI } from '@/apis/Buyer';
 import BuyerNav from './BuyerNav.vue';
 import BuyerHeader from './BuyerHeader.vue';
 
 const buyerInfo = useBuyerStore().buyerInfo;
 
 const historyList = ref([]);
-const getBuyerHistory = async () => {
-    const temp = await getBuyHistoryAPI(buyerInfo.account);
+const getHistory = async () => {
+    const temp = await BuyerGetHistoryAPI(buyerInfo.account);
     console.log(buyerInfo);
     historyList.value = temp.result;
 }
 
 // getBuyerHistory();
-onMounted(() => {getBuyerHistory()})
+onMounted(() => {getHistory()})
 </script>
 <template>
     <BuyerNav></BuyerNav>
