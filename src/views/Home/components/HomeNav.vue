@@ -14,9 +14,9 @@
     </span>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item @click="$router.push('/BuyerLogin')">我是消费者</el-dropdown-item>
-        <el-dropdown-item @click="$router.push('/SellerLogin')">我是商家</el-dropdown-item>
-        <el-dropdown-item @click="$router.push('/AdminLogin')">我是管理员</el-dropdown-item>
+        <el-dropdown-item @click="$router.replace({path: '/BuyerLogin'})">我是消费者</el-dropdown-item>
+        <el-dropdown-item @click="$router.replace({path: '/SellerLogin'})">我是商家</el-dropdown-item>
+        <el-dropdown-item @click="$router.replace({path: '/AdminLogin'})">我是管理员</el-dropdown-item>
       </el-dropdown-menu>
     </template>
 </el-dropdown>

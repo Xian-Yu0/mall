@@ -11,8 +11,8 @@
         <li class="home">
           精选好物，超值优惠，尽在xx购物！
         </li>
-        <li style="margin-left: -10px;"> <el-button type="success" @click="$router.replace(`/AdminHome`)">进入商品首页</el-button> </li>
-        <li> <el-button type="success" @click="$router.replace(`/AdminDiscussTable`)">进入官方论坛</el-button> </li>
+        <li style="margin-left: -10px;"> <el-button type="success" @click="$router.push('/AdminHome')">进入商品首页</el-button> </li>
+        <li> <el-button type="success" @click="$router.push('/AdminDiscussTable')">进入官方论坛</el-button> </li>
       </ul>
       <div class="search">
         <i class="iconfont icon-search"></i>

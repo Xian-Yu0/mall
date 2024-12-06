@@ -47,7 +47,7 @@ const resetForm = () => {
     <BuyerNav></BuyerNav>
     <BuyerHeader></BuyerHeader>
     <h1 class="className"> 修改您的基本信息</h1>
-  <el-form :model="form" label-width="auto" style="max-width: 600px; margin: 20px auto;" ref="formRef">
+  <el-form :model="form" label-width="auto" style="max-width: 600px; margin: 20px auto; height: 500px;" ref="formRef">
     <el-form-item label="您的昵称">
       <el-input v-model="form.nickname" />
     </el-form-item>
@@ -85,5 +85,6 @@ const resetForm = () => {
     text-align: center;
     color: #1dc778;
     font-weight: 500;
+    margin-top: 40px;
 }
 </style>

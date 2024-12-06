@@ -5,7 +5,7 @@ import BuyerNav from './BuyerNav.vue';
 import { onMounted, ref } from 'vue';
 import { BuyerGetMyDiscussAPI, BuyerCreateDiscussAPI } from '@/apis/Buyer';
 import { useRouter } from 'vue-router';
-import { GetDiscussListAPI } from '@/apis/Common';
+import { GetDiscussListAPI, SearchDiscussAPI } from '@/apis/Common';
 
 // import "quill/dist/quill.core.css";
 // import "quill/dist/quill.snow.css";
@@ -42,12 +42,19 @@ const DiscussList = ref([]);
 const getDiscussList = async() => {
   const temp = await GetDiscussListAPI();
   DiscussList.value = temp.result;
+  searchInput.value = ''
 }
 onMounted(()=>{getDiscussList();}) 
 
 const router = useRouter();
 const enterDiscuss = (DiscussId) => {
-  router.replace( { path: `/BuyerDiscuss/${DiscussId}`})
+  router.push(`/BuyerDiscuss/${DiscussId}`)
+}
+
+const searchInput = ref('')
+const searchDiscuss = async() => {
+  const temp = await SearchDiscussAPI(searchInput.value);
+  DiscussList.value = temp.result
 }
 
 </script>
@@ -87,7 +94,7 @@ const enterDiscuss = (DiscussId) => {
                         <!-- <quill-editor></quill-editor> -->
                          <!-- <h1>aaaa</h1> -->
                         <!-- <quill-editor ref="text" v-model="input.content" style="height: 300px"></quill-editor><h1>bbbb</h1> -->
-                         <el-input type="textarea" v-model="input.content" placeholder="请输入内容" rows="8"></el-input>
+                         <el-input type="textarea" v-model="input.content" placeholder="请输入内容" :rows="8"></el-input>
                       </el-col>
                     </el-row>
                     <div slot="footer" class="dialog-footer" style="margin-top: 3%">
@@ -101,29 +108,32 @@ const enterDiscuss = (DiscussId) => {
 
 
     <el-row style="margin: 0px auto; width: 80%;">
-                <el-col :span="22">
+                <el-col :span="19">
                   <el-input
                     placeholder="查找相关帖子"
-                    prefix-icon="el-icon-search" v-model="inputSearch"
-                    style="height: 50px;">
+                    prefix-icon="el-icon-search" v-model="searchInput"
+                    style="height: 40px;">
                   </el-input>
                 </el-col>
-                <el-col :span="2">
-                  <el-button
-                    type="primary"
-                    icon="el-icon-search"
-                    style="float: right; height: 50px; width: 50px;"
-                    @click="searchDiscuss(inputSearch)"
-                    circle>查询->
-                  </el-button>
-                </el-col>
+                <el-col :span="2" style="margin-left: 20px;">
+              <el-button
+                type="primary"
+                @click="searchDiscuss" style="height: 40px;">
+                搜索帖子
+              </el-button>
+            </el-col>
+            <el-col :span="2" style="margin-left: 10px;">
+              <el-button
+                type="primary"
+                @click="getDiscussList" style="height: 40px;">
+                查看全部帖子
+              </el-button>
+            </el-col>
     </el-row>
 
 
 <el-card v-for="discuss in DiscussList" shadow="hover" style="margin-bottom: 2%; width: 80%; margin: 20px auto;" >
-  
-                <div ><img src="../../../../demoPic/3.png" alt=""></div>
-                <div class="clearfix" style="font-size: 24px;">
+                <div class="clearfix" style="font-size: 24px; padding-top: 20px;">
                   <span>{{ discuss.DiscussTitle }}</span>
                   <el-button style="float: right; padding: 3px 0" type="text"
                              @click="enterDiscuss(discuss.DiscussId)">进入帖子</el-button>

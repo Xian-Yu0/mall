@@ -14,6 +14,7 @@ import AdminHome from '@/views/Admin/AdminHome.vue'
 import AdminDiscussTable from '@/views/Admin/AdminDiscussTable.vue'
 import AdminDiscuss from '@/views/Admin/AdminDiscuss.vue'
 import AdminDetail from '@/views/Admin/AdminDetail.vue'
+import AdminSellerGoods from '@/views/Admin/AdminSellerGoods.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -129,6 +130,11 @@ const router = createRouter({
       path: '/AdminDetail/:id',
       name: 'AdminDetail',
       component: AdminDetail
+    },
+    {
+      path: '/AdminSellerGoods/:id',
+      name: 'AdminSellerGoods',
+      component: AdminSellerGoods
     },
     // // 查看帖子
     // {

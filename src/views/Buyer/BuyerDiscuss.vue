@@ -13,7 +13,7 @@ const router = useRouter();
 const buyerInfo = useBuyerStore().buyerInfo;
 
 const backToTable = () => {
-  router.replace( {path: '/BuyerDiscussTable'} );
+  router.push('/BuyerDiscussTable');
 }
 
 const discuss = ref({})

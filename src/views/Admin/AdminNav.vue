@@ -17,8 +17,8 @@ const unLogin = () => {
                 <template v-if="true">
                     <!-- <li><a href="javascript:;">{{ buyerName.name }}</a></li> -->
                      <li><a href="javascript:;">{{ useAdminStore().adminInfo.nickname }}</a></li>
-                    <li><a href="javascript:;" @click="$router.replace(`/AdminSellers`)">所有商家</a></li>
-                    <li><a href="javascript:;" @click="$router.replace(`/AdminGoods`)">所有商品</a></li>
+                    <li><a href="javascript:;" @click="$router.push('/AdminSellers')">所有商家</a></li>
+                    <li><a href="javascript:;" @click="$router.push('/AdminGoods')">所有商品</a></li>
                     <li><a href="javascript:;" @click="unLogin()">退出登录</a></li>
                     <li><a href="javascript:;">帮助中心</a></li>
                     <li><a href="javascript:;">关于我们</a></li>

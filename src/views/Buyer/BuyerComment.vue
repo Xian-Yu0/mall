@@ -1,229 +1,13 @@
-<script>
-import { GetDetailCommentAPI } from '@/apis/Common';
+<script setup>
+import { BuyerCreateCommentAPI } from '@/apis/Buyer';
+import { DeleteCommentAPI, GetDetailCommentAPI } from '@/apis/Common';
+import { useBuyerStore } from '@/stores/userInfo';
+import { ElMessage } from 'element-plus';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
-// const clickoutside = {
-//     // 初始化指令
-//     bind(el, binding, vnode) {
-//     function documentHandler(e) {
-//     // 这里判断点击的元素是否是本身，是本身，则返回
-//         if (el.contains(e.target)) {
-//             return false;
-//         }
-//     // 判断指令中是否绑定了函数
-//         if (binding.expression) {
-//             // 如果绑定了函数 则调用那个函数，此处binding.value就是handleClose方法
-//             binding.value(e);
-//         }
-//     }
-//     // 给当前元素绑定个私有变量，方便在unbind中可以解除事件监听
-//     el.vueClickOutside = documentHandler;
-//     document.addEventListener('click', documentHandler);
-//     },
-//     update() {},
-//     unbind(el, binding) {
-//     // 解除事件监听
-//     document.removeEventListener('click', el.vueClickOutside);
-//     delete el.vueClickOutside;
-//   },
-// };
-// export default {
-//     name:'ArticleComment',
-//     data(){
-//         return{
-//             btnShow: false,
-//             index:'0',
-//             replyComment:'',
-//             myName:'Lana Del Rey',
-//             myHeader:'https://ae01.alicdn.com/kf/Hd60a3f7c06fd47ae85624badd32ce54dv.jpg',
-//             myId:19870621,
-//             to:'',
-//             toId:-1,
-//             comments:[
-//                 {
-//                     name:'名字',
-//                     id:19870621,
-//                     headImg:'',
-//                     comment:'评论内容',
-//                     time:'时间',
-//                     commentNum:2,
-//                     like:15,
-//                     inputShow:false,
-//                     reply:[
-//                         {
-//                             from:'名字',
-//                             fromId:19891221,
-//                             fromHeadImg:'评论内容',
-//                             to:'名字',
-//                             toId:19870621,
-//                             comment:'内容',
-//                             time:'时间',
-//                             commentNum:1,
-//                             like:15,
-//                             inputShow:false
-//                         },
-//                         {
-//                             from:'名字',
-//                             fromId:1123,
-//                             fromHeadImg:'',
-//                             to:'名字',
-//                             toId:19870621,
-//                             comment:'内容',
-//                             time:'时间',
-//                             commentNum:0,
-//                             like:5,
-//                             inputShow:false
- 
-//                         }
-//                     ]
-//                 },
-//                 {
-//                     name:'T名字',
-//                     id:19891221,
-//                     headImg:'',
-//                     comment:'内容',
-//                     time:'时间',
-//                     commentNum:1,
-//                     like:5,
-//                     inputShow:false,
-//                     reply:[
-//                         {
-//                             from:'名字',
-//                             fromId:19870621,
-//                             fromHeadImg:'',
-//                             to:'名字',
-//                             toId:19891221,
-//                             comment:'内容！',
-//                             time:'时间',
-//                             commentNum:25,
-//                             like:5,
-//                             inputShow:false
- 
-//                         }
-//                     ]
-//                 },
-//                 {
-//                     name:'名字',
-//                     id:20190830,
-//                     headImg:'',
-//                     comment:'内容',
-//                     time:'时间',
-//                     commentNum:0,
-//                     like:5,
-//                     inputShow:false,
-//                     reply:[]
-//                 },
-//             ]
-//         }
-//     },
-//     directives: {clickoutside},
-//     methods: {
-//         inputFocus(){
-//             var replyInput = document.getElementById('replyInput');
-//             replyInput.style.padding= "8px 8px"
-//             replyInput.style.border ="2px solid blue"
-//             replyInput.focus()
-//         },  
-//         showReplyBtn(){
-//             this.btnShow = true
-//         },
-//         hideReplyBtn(){
-//             this.btnShow = false
-//             replyInput.style.padding= "10px"
-//             replyInput.style.border ="none"
-//         },
-//         showReplyInput(i,name,id){
-//             this.comments[this.index].inputShow = false
-//             this.index =i
-//             this.comments[i].inputShow = true
-//             this.to = name
-//             this.toId = id
-//         },
-//         _inputShow(i){
-//             return this.comments[i].inputShow 
-//         },
-//         sendComment(){
-//             if(!this.replyComment){
-//                  this.$message({
-//                     showClose: true,
-//                     type:'warning',
-//                     message:'评论不能为空'
-//                 })
-//             }else{
-//                 let a ={}
-//                 let input =  document.getElementById('replyInput')
-//                 let timeNow = new Date().getTime();
-//                 let time= this.dateStr(timeNow);
-//                 a.name= this.myName
-//                 a.comment =this.replyComment
-//                 a.headImg = this.myHeader
-//                 a.time = time
-//                 a.commentNum = 0
-//                 a.like = 0
-//                 this.comments.push(a)
-//                 this.replyComment = ''
-//                 input.innerHTML = '';
- 
-//             }
-//         },
-//         sendCommentReply(i,j){
-//             if(!this.replyComment){
-//                  this.$message({
-//                     showClose: true,
-//                     type:'warning',
-//                     message:'评论不能为空'
-//                 })
-//             }else{
-//                 let a ={}
-//                 let timeNow = new Date().getTime();
-//                 let time= this.dateStr(timeNow);
-//                 a.from= this.myName
-//                 a.to = this.to
-//                 a.fromHeadImg = this.myHeader
-//                 a.comment =this.replyComment
-//                 a.time = time
-//                 a.commentNum = 0
-//                 a.like = 0
-//                 this.comments[i].reply.push(a)
-//                 this.replyComment = ''
-//                 document.getElementsByClassName("reply-comment-input")[i].innerHTML = ""
-//             }
-//         },
-//         onDivInput: function(e) {
-//             this.replyComment = e.target.innerHTML;
-//         },
-//         dateStr(date){
-//             //获取js 时间戳
-//             var time=new Date().getTime();
-//             //去掉 js 时间戳后三位，与php 时间戳保持一致
-//             time=parseInt((time-date)/1000);
-//             //存储转换值 
-//             var s;
-//             if(time<60*10){//十分钟内
-//                 return '刚刚';
-//             }else if((time<60*60)&&(time>=60*10)){
-//                 //超过十分钟少于1小时
-//                 s = Math.floor(time/60);
-//                 return  s+"分钟前";
-//             }else if((time<60*60*24)&&(time>=60*60)){ 
-//                 //超过1小时少于24小时
-//                 s = Math.floor(time/60/60);
-//                 return  s+"小时前";
-//             }else if((time<60*60*24*30)&&(time>=60*60*24)){ 
-//                 //超过1天少于30天内
-//                 s = Math.floor(time/60/60/24);
-//                 return s+"天前";
-//             }else{ 
-//                 //超过30天ddd
-//                 var date= new Date(parseInt(date));
-//                 return date.getFullYear()+"/"+(date.getMonth()+1)+"/"+date.getDate();
-//             }
-//         }
-//     },    
-// }
 const route = useRoute();
-
+const buyerInfo = useBuyerStore().buyerInfo;
 
 const commentList = ref([])
 const getDetailComment = async () => {
@@ -233,13 +17,66 @@ const getDetailComment = async () => {
 }
 onMounted(() => {getDetailComment();}) 
 
+const score = ref(5);
+const createComment = async () => {
+    const account = buyerInfo.account;
+
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const date = `${year}-${month}-${day}`;
+
+    const content = document.getElementById("replyInput").innerText;
+
+    const goodId = route.params.id
+    // await BuyerCreateCommentAPI(account, date, content, score.value, goodId);
+    console.log(account);
+    console.log(date);
+    console.log(content);
+    console.log(score.value);
+    console.log(goodId)
+
+    setTimeout(() => {
+    window.location.reload();  // 1.5秒后刷新页面
+  }, 1500);
+}
+
+const deleteComment = async (commentById, commentId) => {
+    if (commentById != buyerInfo.account)
+    {
+        ElMessage({
+        message: '您不能删除他人的评价！',
+        type: 'error',
+        })
+    }
+    else
+    {
+        await DeleteCommentAPI(commentId)
+        console.log(commentId)
+        ElMessage({
+        message: '删除成功！',
+        type: 'success',
+        })
+        setTimeout(() => {
+        window.location.reload();  // 1.5秒后刷新页面
+        }, 1500);
+    }
+}
 </script>
 
 
 <template>
     <div class="core">
-        <div v-clickoutside="hideReplyBtn" class="my-reply">
-            <!-- <el-avatar class="header-img" :size="40" :src="myHeader"></el-avatar> -->
+        <div class="my-reply">
+             <p style="color: black;">选择您的评分</p>
+             <el-radio-group v-model="score" size="large" style="color: black;">
+                <el-radio :value="1">1.0分</el-radio>
+                <el-radio :value="2">2.0分</el-radio>
+                <el-radio :value="3">3.0分</el-radio>
+                <el-radio :value="4">4.0分</el-radio>
+                <el-radio :value="5">5.0分</el-radio>
+             </el-radio-group>
             <div class="reply-info" >
                 <div 
                 tabindex="0" 
@@ -248,295 +85,34 @@ onMounted(() => {getDetailComment();})
                 spellcheck="false" 
                 placeholder="输入评论..." 
                 class="reply-input" 
-                @focus="showReplyBtn"  
-                @input="onDivInput($event)"
                 style="border: 2px solid #27ba9b;"
                 >
                 </div>
             </div>
             <div class="reply-btn-box" style="margin-top: -35px;">
-                <el-button class="reply-btn" size="medium" type="primary">发表评论</el-button>
+                <el-button class="reply-btn" size="default" type="primary" @click="createComment">发表评论</el-button>
             </div>
         </div>
-        <div v-for="(item,i) in comments" :key="i" class="author-title reply-father">
-            <el-avatar class="header-img" :size="40" :src="item.headImg"></el-avatar>
-            <div class="author-info">
-                <span class="author-name">{{item.name}}</span>
-                <span class="author-time">{{item.time}}</span>
+        <div style="margin-top: 30px;">
+        <div v-for="comment in commentList" :key="comment.commentId" class="author-title reply-father">
+             <el-link type="danger" v-on:click="deleteComment(comment.commentById, comment.commentId)" style="float: right; margin-top: 35px; margin-right: 30px;">删除</el-link>
+            <div class="author-info" style="margin-top: 5px;">
+                <span class="author-name">{{comment.commentByName}}</span>
+                <span class="author-time" style="margin-top: 5px;">{{comment.CommentTime}}</span>
             </div>
-            <div class="icon-btn">
-                <span @click="showReplyInput(i,item.name,item.id)"><i class="iconfont el-icon-s-comment"></i>{{item.commentNum}}</span>
-                <i class="iconfont el-icon-caret-top"></i>{{item.like}}
-            </div>
-            <div class="talk-box">
+            <div class="talk-box" style="margin-bottom: 7px;">
+                <p style="font-size: 16px; color: black;">评分&nbsp;&nbsp;<span style="font-size: 20px;">{{ comment.CommentScore }}.0</span></p>
                 <p>
-                    <span class="reply">{{item.comment}}</span>
+                    <span class="reply">{{comment.CommentContent}}</span>
                 </p>
             </div>
-            <!-- <div class="reply-box">
-                <div v-for="(reply,j) in item.reply" :key="j" class="author-title">
-                    <div class="author-info">
-                        <span class="author-name">{{reply.from}}</span>
-                        <span class="author-time">{{reply.time}}</span>
-                    </div>
-                    <div class="icon-btn">
-                        <span @click="showReplyInput(i,reply.from,reply.id)"><i class="iconfont el-icon-s-comment"></i>{{reply.commentNum}}</span>
-                        <i class="iconfont el-icon-caret-top"></i>{{reply.like}}
-                    </div>
-                    <div class="talk-box">
-                        <p>
-                            <span>回复 {{reply.to}}:</span>
-                            <span class="reply">{{reply.comment}}</span>
-                        </p>
-                    </div>
-                    <div class="reply-box">
- 
-                    </div>
-                </div>
-            </div> -->
-            <div  v-show="_inputShow(i)" class="my-reply my-comment-reply">
-                <el-avatar class="header-img" :size="40" :src="myHeader"></el-avatar>
-                <div class="reply-info" >
-                    <div tabindex="0" contenteditable="true" spellcheck="false" placeholder="输入评论..."   @input="onDivInput($event)" style="border: 2px solid #27ba9b;"  class="reply-input reply-comment-input"></div>
-                </div>
-                <div class=" reply-btn-box">
-                    <el-button class="reply-btn" size="medium" @click="sendCommentReply(i,j)" type="primary">发表评论</el-button>
-            </div>
+        </div>    
         </div>
-        </div>
+        
     </div>
 </template>
     
 <style scoped>
-/* .my-reply
-{
-    padding: 10px;
-    background-color: #fafbfc;
-    
-        
-}
-.header-img
-    {
-        display: inline-block;
-        vertical-align: top;
-    }
-    .reply-info  
-    {
-        display: inline-block;
-        margin-left: 5px;
-        width: 90%;
-        @media screen and (max-width:1200px) {
-            width 80%
-    }  
-    }  
-          
-.reply-input
-{
-    min-height: 20px;
-    line-height: 22px;
-    padding: 10px 10px;
-    color: #ccc;
-    background-color: #fff;
-    border-radius: 5px;
-            
-}
-&:empty:before
-{
-    content: attr(placeholder)
-}
-&:focus:before
-{
-    content: none
-}
-                
-&:focus
-{
-    padding: 8px 8px;
-    border: 2px solid blue;
-    box-shadow: none;
-    outline: none ;
-}
-                               
-    
-    
-        
-    .reply-btn-box
-    {
-        height: 25px;
-        margin: 10px 0
-    }
-        
-        .reply-btn
-        {
-            position: relative;
-            float: right;
-            margin-right: 15px;
-        }
-            
-.my-comment-reply
-{
-    margin-left: 50px;
-}
-.reply-input
-{
-    width: flex;
-}
-.author-title:not(:last-child)
-{
-    border-bottom: 1px solid rgba(178,186,194,.3);
-}
-    
-.author-title
-{
-    padding: 10px;
-}   
-    .header-img
-    {
-        display: inline-block;
-        vertical-align: top
-    }
-        
-    .author-info
-    {
-        display: inline-block;
-        margin-left: 5px;
-        width: 60%;
-        height: 40px;
-        line-height: 20px;
-    }
-        
-        >span 
-        {
-            display: block;
-            cursor: pointer;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        }
-            
-        .author-name
-        {
-            
-            font-size: 18px;
-            font-weight: bold;
-        }
-            
-        .author-time
-        {
-            
-            font-size: 14px;
-        }
-            
-    .icon-btn
-        width 30%
-        padding 0 !important 
-        float right
-        @media screen and (max-width : 1200px){
-            width 20%
-            padding 7px
-        }
-        >span 
-            cursor pointer
-        .iconfont 
-            margin 0 5px
-    .talk-box
-        margin 0 50px
-        >p
-           margin 0
-        .reply
-            font-size 16px
-            color #red
-    .reply-box
-        margin 10px 0 0 50px
-        background-color #efefef */
-/* .my-reply
-    padding 10px
-    background-color #fafbfc
-    .header-img
-        display inline-block
-        vertical-align top
-    .reply-info    
-        display inline-block
-        margin-left 5px
-        width 90%
-        @media screen and (max-width:1200px) {
-            width 80%
-        }
-        .reply-input
-            min-height 20px
-            line-height 22px
-            padding 10px 10px
-            color #ccc
-            background-color #fff
-            border-radius 5px
-            &:empty:before
-                content attr(placeholder)
-            &:focus:before
-                content none
-            &:focus
-                padding 8px 8px
-                border 2px solid blue
-                box-shadow none
-                outline none
-    .reply-btn-box
-        height 25px
-        margin 10px 0
-        .reply-btn
-            position relative
-            float right
-            margin-right 15px
-.my-comment-reply
-    margin-left 50px
-    .reply-input
-        width flex
-.author-title:not(:last-child)
-    border-bottom: 1px solid rgba(178,186,194,.3)
-.author-title
-    padding 10px
-    .header-img
-        display inline-block
-        vertical-align top
-    .author-info
-        display inline-block
-        margin-left 5px
-        width 60%
-        height 40px
-        line-height 20px
-        >span 
-            display block
-            cursor pointer
-            overflow hidden
-            white-space nowrap
-            text-overflow ellipsis
-        .author-name
-            color #000
-            font-size 18px
-            font-weight bold
-        .author-time
-            font-size 14px
-    .icon-btn
-        width 30%
-        padding 0 !important 
-        float right
-        @media screen and (max-width : 1200px){
-            width 20%
-            padding 7px
-        }
-        >span 
-            cursor pointer
-        .iconfont 
-            margin 0 5px
-    .talk-box
-        margin 0 50px
-        >p
-           margin 0
-        .reply
-            font-size 16px
-            color #000
-    .reply-box
-        margin 10px 0 0 50px
-        background-color #efefef */
-
 .core {
     width: 80%;
     margin: 10px auto;
@@ -567,13 +143,14 @@ onMounted(() => {getDetailComment();})
     min-height: 20px;
     line-height: 22px;
     padding: 10px 10px;
-    color: #ccc;
+    color: black;
     background-color: #fff;
     border-radius: 5px;
 }
 
 .my-reply .reply-input:empty::before {
     content: attr(placeholder);
+    color: #ccc;    /* placeholder 的颜色 */
 }
 
 .my-reply .reply-input:focus::before {
@@ -581,7 +158,6 @@ onMounted(() => {getDetailComment();})
 }
 
 .my-reply .reply-input:focus {
-    padding: 8px 8px;
     border: 2px solid #27ba9b;
     box-shadow: none;
     outline: none;
@@ -607,7 +183,7 @@ onMounted(() => {getDetailComment();})
 }
 
 .author-title:not(:last-child) {
-    border-bottom: 1px solid rgba(178, 186, 194, 0.3);
+    border-top: 1px solid rgba(178, 186, 194, 0.3);
 }
 
 .author-title {
@@ -642,7 +218,7 @@ onMounted(() => {getDetailComment();})
 }
 
 .author-title .author-time {
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .author-title .icon-btn {

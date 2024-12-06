@@ -11,7 +11,7 @@ import { AdminCreatePostAPI } from '@/apis/Admin';
 const route = useRoute();
 const router = useRouter();
 const backToTable = () => {
-  router.replace( {path: '/AdminDiscussTable'} );
+  router.push('/AdminDiscussTable');
 }
 
 const discuss = ref({})

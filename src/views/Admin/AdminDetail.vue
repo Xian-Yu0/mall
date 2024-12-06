@@ -1,7 +1,7 @@
 <script setup>
 import ImageView from '@/components/ImageView.vue';
-import { ref } from 'vue';
-import { GetGoodDetailAPI } from '@/apis/Common';
+import { onMounted, ref } from 'vue';
+import { GetDetailCommentAPI, GetGoodDetailAPI } from '@/apis/Common';
 import { useRoute } from 'vue-router';
 import AdminNav from './AdminNav.vue';
 import AdminHeader from './AdminHeader.vue';
@@ -23,14 +23,13 @@ import AdminComment from './AdminComment.vue'
 // onMounted(() => {getDetail()})
 
 const route = useRoute();
-const goodInfo = ref({})
 
+const goodInfo = ref({})
 const getGoodDetail = async () => {
   const temp = await GetGoodDetailAPI(route.params.id)
   goodInfo.value = temp.result
 }
-getGoodDetail();
-
+onMounted(()=>{getGoodDetail();}) 
 </script>
 
 <template>
@@ -55,7 +54,7 @@ getGoodDetail();
               <!-- 统计数量 -->
               
             </div>
-            <div class="spec">
+            <div class="spec" v-if="goodInfo.goodDiscount">
               <!-- 商品信息区 -->
               <p class="g-name"> {{goodInfo.goodName}} </p>
               <p class="g-desc"> {{ goodInfo.goodDesc }} </p>
@@ -80,11 +79,6 @@ getGoodDetail();
               <!-- 数据组件 -->
 
               <!-- 按钮组件 -->
-              <div>
-                <el-button size="large" class="btn">
-                  加入购物车
-                </el-button>
-              </div>
               <ul class="goods-sales" style="margin-left: -30px;">
                 <li>
                   <p>销量人气</p>
@@ -101,6 +95,11 @@ getGoodDetail();
                   <p>123</p>
                   <p><i class="iconfont icon-favorite-filling"></i>收藏商品</p>
                 </li> -->
+                <li>
+                  <p>商品评分</p>
+                  <p>{{goodInfo.goodScore}}</p>
+                  <p><i class="iconfont icon-comment-filling"></i>查看评价</p>
+                </li>
                 <li>
                   <p>品牌信息</p>
                   <p>{{ goodInfo.goodSeller }}</p>

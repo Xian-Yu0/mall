@@ -5,7 +5,8 @@ import BuyerHeader from './BuyerHeader.vue';
 import BuyerComment from './BuyerComment.vue';
 import { onMounted, ref } from 'vue';
 import { GetGoodDetailAPI } from '@/apis/Common';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+import { createOrderAPI } from '@/apis/Buyer';
 
 // import { getDetailAPI } from '@/apis/Detail';
 // import { onMounted, ref } from 'vue';
@@ -22,7 +23,6 @@ import { useRoute } from 'vue-router';
 
 // onMounted(() => {getDetail()})
 const route = useRoute();
-
 
 const goodInfo = ref({})
 const getGoodDetail = async () => {
@@ -55,7 +55,7 @@ onMounted(()=>{getGoodDetail();})
               <!-- 统计数量 -->
               
             </div>
-            <div class="spec">
+            <div class="spec" v-if="goodInfo.goodDiscount">
               <!-- 商品信息区 -->
               <p class="g-name"> {{goodInfo.goodName}} </p>
               <p class="g-desc"> {{ goodInfo.goodDesc }} </p>
@@ -96,11 +96,11 @@ onMounted(()=>{getGoodDetail();})
                   <p>{{goodInfo.goodCommentNum}}</p>
                   <p><i class="iconfont icon-comment-filling"></i>查看评价</p>
                 </li>
-                <!-- <li>
-                  <p>收藏人气</p>
-                  <p>123</p>
-                  <p><i class="iconfont icon-favorite-filling"></i>收藏商品</p>
-                </li> -->
+                <li>
+                  <p>商品评分</p>
+                  <p>{{goodInfo.goodScore}}</p>
+                  <p><i class="iconfont icon-comment-filling"></i>查看评价</p>
+                </li>
                 <li>
                   <p>品牌信息</p>
                   <p>{{ goodInfo.goodSeller }}</p>
@@ -141,7 +141,7 @@ onMounted(()=>{getGoodDetail();})
       </div>
     </div>
   </div>
-  <BuyerComment v-if="b"></BuyerComment>
+  <BuyerComment></BuyerComment>
 </template>
 
 

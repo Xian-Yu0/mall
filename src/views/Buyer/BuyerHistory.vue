@@ -10,26 +10,20 @@ const buyerInfo = useBuyerStore().buyerInfo;
 const historyList = ref([]);
 const getHistory = async () => {
     const temp = await BuyerGetHistoryAPI(buyerInfo.account);
-    console.log(buyerInfo);
     historyList.value = temp.result;
+    console.log(historyList.value)
 }
-
-// getBuyerHistory();
 onMounted(() => {getHistory()})
 </script>
 <template>
     <BuyerNav></BuyerNav>
     <BuyerHeader></BuyerHeader>
     <h1>购物历史</h1>
-    <el-button type="primary" @click="$router.replace(`/BuyerHome`)">返回主页</el-button>
-
-  <el-descriptions class="list" title="" :column="3" :size="size" border v-for="history in historyList">
+    <el-button type="primary" @click="$router.push('/BuyerHome')" style="margin-bottom: 10px;">返回主页</el-button>
+  <el-descriptions class="list" title="" :column="4"  border v-for="history in historyList" style="height: 100px; border-bottom: 1px solid #ccc;">
     <el-descriptions-item width="400px" label-width="200px" align='left' label-align='center'>
       <template #label>
         <div class="cell-item">
-          <el-icon :style="iconStyle">
-            <user />
-          </el-icon>
           商品名称
         </div>
       </template>
@@ -38,20 +32,22 @@ onMounted(() => {getHistory()})
     <el-descriptions-item width="400px" label-width="200px" align='left' label-align='center'>
       <template #label>
         <div class="cell-item">
-          <el-icon :style="iconStyle">
-            <iphone />
-          </el-icon>
           订单编号
         </div>
       </template>
       {{ history.orderId }}22222222222
     </el-descriptions-item>
-    <el-descriptions-item width="200px" align='left' label-align='center'>
+    <el-descriptions-item width="200px" label-width="100px" align='left' label-align='center'>
       <template #label>
         <div class="cell-item">
-          <el-icon :style="iconStyle">
-            <location />
-          </el-icon>
+          购买件数
+        </div>
+      </template>
+      {{ history.orderNum }}
+    </el-descriptions-item>
+    <el-descriptions-item width="200px" label-width="100px" align='left' label-align='center'>
+      <template #label>
+        <div class="cell-item">
           支付金额
         </div>
       </template>
@@ -60,9 +56,6 @@ onMounted(() => {getHistory()})
     <el-descriptions-item>
       <template #label>
         <div class="cell-item">
-          <el-icon :style="iconStyle">
-            <tickets />
-          </el-icon>
           购买日期
         </div>
       </template>
@@ -71,15 +64,19 @@ onMounted(() => {getHistory()})
     <el-descriptions-item>
       <template #label>
         <div class="cell-item">
-          <el-icon :style="iconStyle">
-            <office-building />
-          </el-icon>
           商品链接
         </div>
       </template>
-      <RouterLink :to= "`/good/${history.orderGoodId}`"> 点击查看商品详情 </RouterLink>
+      <RouterLink :to= "`/BuyerDetail/${history.orderGoodId}`"> 点击查看商品详情 </RouterLink>
     </el-descriptions-item>
-    
+     <el-descriptions-item>
+      <template #label>
+        <div class="cell-item">
+         收货地址
+        </div>
+      </template>
+      {{ history.orderPos }}
+    </el-descriptions-item>
   </el-descriptions>
 </template>
 

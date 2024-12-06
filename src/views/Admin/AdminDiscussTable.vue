@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router';
 import AdminNav from './AdminNav.vue';
 import AdminHeader from './AdminHeader.vue';
 import { AdminCreateDiscussAPI, AdminGetMyDiscussAPI } from '@/apis/Admin';
-import { GetDiscussListAPI } from '@/apis/Common';
+import { GetDiscussListAPI, SearchDiscussAPI } from '@/apis/Common';
 
 const adminInfo = useAdminStore().adminInfo
 const newDiscuss = ref(false);
@@ -42,13 +42,19 @@ const getDiscussList = async() => {
 // 不需要三种分开
   const temp = await GetDiscussListAPI()
   discussList.value = temp.result;
-  console.log(discussList.value);
+  searchInput.value = ''
 }
 getDiscussList();
 
 const router = useRouter();
 const enterDiscuss = (DiscussId) => {
-  router.replace( { path: `/AdminDiscuss/${DiscussId}`})
+  router.push(`/AdminDiscuss/${DiscussId}`)
+}
+
+const searchInput = ref('')
+const searchDiscuss = async() => {
+  const temp = await SearchDiscussAPI(searchInput.value);
+  discussList.value = temp.result
 }
 
 </script>
@@ -100,29 +106,32 @@ const enterDiscuss = (DiscussId) => {
 
 
     <el-row style="margin: 0px auto; width: 80%;">
-                <el-col :span="22">
+                <el-col :span="19">
                   <el-input
                     placeholder="查找相关帖子"
-                    prefix-icon="el-icon-search" v-model="inputSearch"
-                    style="height: 50px;">
+                    prefix-icon="el-icon-search" v-model="searchInput"
+                    style="height: 40px;">
                   </el-input>
                 </el-col>
-                <el-col :span="2">
-                  <el-button
-                    type="primary"
-                    icon="el-icon-search"
-                    style="float: right; height: 50px; width: 50px;"
-                    @click="searchDiscuss(inputSearch)"
-                    circle>查询->
-                  </el-button>
-                </el-col>
+                <el-col :span="2" style="margin-left: 20px;">
+              <el-button
+                type="primary"
+                @click="searchDiscuss" style="height: 40px;">
+                搜索帖子
+              </el-button>
+            </el-col>
+            <el-col :span="2" style="margin-left: 10px;">
+              <el-button
+                type="primary"
+                @click="getDiscussList" style="height: 40px;">
+                查看全部帖子
+              </el-button>
+            </el-col>
     </el-row>
 
 
 <el-card v-for="discuss in discussList" shadow="hover" style="margin-bottom: 2%; width: 80%; margin: 20px auto;" >
-  
-                <div ><img src="../../../../demoPic/3.png" alt=""></div>
-                <div class="clearfix" style="font-size: 24px;">
+                <div class="clearfix" style="font-size: 24px; padding-top: 20px;">
                   <span>{{ discuss.DiscussTitle }}</span>
                   <el-button style="float: right; padding: 3px 0" type="text"
                              @click="enterDiscuss(discuss.DiscussId)">进入帖子</el-button>
