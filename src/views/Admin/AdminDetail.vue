@@ -50,7 +50,7 @@ onMounted(()=>{getGoodDetail();})
           <div class="goods-info">
             <div class="media">
               <!-- 图片预览区 -->
-               <ImageView></ImageView>
+               <ImageView :pic="goodInfo.goodPic"></ImageView>
               <!-- 统计数量 -->
               
             </div>

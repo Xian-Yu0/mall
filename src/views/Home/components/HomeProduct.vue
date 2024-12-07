@@ -1,48 +1,30 @@
 <script setup>
+defineProps({
+  To: {
+    type: String,
+    default: () => { }
+  }
+})
+
 import { getGoodsAPI } from '@/apis/Home';
 import { onMounted, ref } from 'vue';
 import GoodItem from './GoodItem.vue';
 
-// const categoryFilter = ref({})
-// const getCategoryFilter = async () => {
-//   const temp = await getCategoryFilterAPI(routeNow.params.id)
-//   categoryFilter.value = temp.result
-// }
-// onMounted(() => {getCategoryFilter()})
-
-const httpPara = ref({
-  page: 1,
-  pageSize: 20,
-  sortField: 'BoughtTimes'
-})
 const GoodList = ref([])
 const getGoods = async () => {
-  const temp = await getGoodsAPI(httpPara.value)     //不一样
-  GoodList.value = temp.result.items               //不一样
+  const temp = await getGoodsAPI()     //不一样
+  GoodList.value = temp.result            //不一样
 }
-
 onMounted(() => {getGoods()})
-
-// 在JS中访问响应式对象的值时要加.value，在模板中访问时不加
-// 响应式对象的值可修改
-const disabled = ref(false)
-const infinite = async () => {
-  httpPara.value.page = httpPara.value.page + 1
-  const temp = await getGoodsAPI(httpPara.value)
-  GoodList.value = [...subGoodList.value, ...temp.result.items]
-  if (temp.result.items.length == 0) {
-    disabled.value = true
-  }
-}
 </script>
 
 <template>
   <div class="container ">
     <div class="sub-container">
       <!-- 是在div滚动到底时执行操作，所以属性应加在div上 -->
-      <div class="body" v-infinite-scroll="infinite" :infinite-scroll-disabled="disabled">
+      <div class="body">
          <!-- 商品列表-->
-          <GoodItem v-for="item in GoodList" :good="item" :key="item.id"/>
+          <GoodItem v-for="item in GoodList" :good="item" :To="To" :key="item.id"/>
           <!-- 列表无限加载的实现：检测到触底时获取第page+1页处的数据，然后与老数据拼接 -->
       </div>
     </div>

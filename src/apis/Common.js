@@ -16,7 +16,7 @@ export function GetGoodDetailAPI(id) {
     //     url: '/GetGoodDetail',
     //     params: { id }
     // } )
-    return { result: { goodName: '我是商品名字', goodSellNum: 233, goodCommentNum: 1111, goodScore: 3.7, goodSeller: '商家名称', goodDesc: '商品描述', goodPrice: 10000, goodDiscount: { cuxiao: '12月直降3000元', fuwu: '全国包邮，无忧退货' } } }
+    return { result: { goodName: '我是商品名字', goodPic: "../src/assets/DemoPic/2.png", goodSellNum: 233, goodCommentNum: 1111, goodScore: 3.7, goodSeller: '商家名称', goodDesc: '商品描述', goodPrice: 10000, goodDiscount: { cuxiao: '12月直降3000元', fuwu: '全国包邮，无忧退货' } } }
 }
 
 export function GetDetailCommentAPI(id) {

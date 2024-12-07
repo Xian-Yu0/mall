@@ -26,7 +26,7 @@ export function BuyerGetHistoryAPI(account) {
     const orderName = '北航'
     const orderId = 'beihang order id'
     const orderNum = 4
-    const orderPrice = '11000'
+    const orderPrice = 11000
     const orderDate = '2024-11-11'
     const orderGoodId = '666666'
     const orderPos = '北京市北京航空航天大学'
@@ -55,7 +55,12 @@ export function BuyerCreatePostAPI(account, date, postContent) {
 
 export function BuyerGetMyDiscussAPI(account) {
     // return httpRequest({ url: '/BuyerGetMyDiscuss', params: { account } })
-    return { result: [{ DiscussId: '帖子ID', DiscussTitle: '帖子题目' }] }
+    let array = [];
+    for (let i = 0; i < 5; i++) {
+        array.push({ DiscussId: '我的帖子的ID', DiscussTitle: '我的帖子的题目', DiscussTime: '发帖时间', DiscussBy: '发帖人', DiscussByType: '普通用户' })
+    }
+    // Time类均为xxxx-xx-xx格式
+    return { result: array }
 }
 
 export function BuyerCreateCommentAPI(account, date, content, score, goodId) {
@@ -63,5 +68,20 @@ export function BuyerCreateCommentAPI(account, date, content, score, goodId) {
         url: '/BuyerCreateComment',
         method: 'POST',
         data: { account, date, content, score, goodId }
+    })
+}
+
+export function BuyerAllocAccountAPI() {
+    // return httpRequest({
+    //     url: '/BuyerAllocAccount',
+    // })
+    return { result: '24370000' }
+}
+
+export function BuyerRegisterAPI(account, nickname, sex, birthday, password, desc) {
+    return httpRequest({
+        url: '/BuyerRegister',
+        method: 'POST',
+        data: { account, nickname, sex, birthday, password, desc }
     })
 }

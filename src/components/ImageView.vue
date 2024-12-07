@@ -1,7 +1,12 @@
 <script setup>
+defineProps({
+  pic: {
+    type: String,
+    default: () => { }
+  }
+})
 import { ref, watch } from 'vue';
 import { useMouseInElement } from '@vueuse/core';
-
 // 图片列表
 const imageList = [
   "https://yanxuan-item.nosdn.127.net/d917c92e663c5ed0bb577c7ded73e4ec.png",
@@ -56,7 +61,7 @@ positionY.value = -top.value * 2
   <div class="goods-image">
     <!-- 左侧大图-->
     <div class="middle" ref="target">
-      <img :src="imageList[0]" alt="" />
+      <img :src="pic" alt="" />
       <!-- 蒙层小滑块 -->
       <div class="layer" :style="{ left: `${left}px`, top: `${top}px` }" v-show="!isOutside"></div>
     </div>
@@ -69,7 +74,7 @@ positionY.value = -top.value * 2
     <!-- 放大镜大图 -->
     <div class="large" :style="[
       {
-        backgroundImage: `url(${imageList[0]})`,
+        backgroundImage: `url(${pic})`,
         backgroundPositionX: `${positionX}px`,
         backgroundPositionY: `${positionY}px`,
       },

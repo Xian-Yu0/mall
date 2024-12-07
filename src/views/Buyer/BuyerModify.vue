@@ -21,7 +21,7 @@ const submitForm = async () =>
   const nickname = form.nickname;
   const password = form.password;
   const sex = form.sex;
-  const birthday = form.birthday;
+  const birthday = new Date(form.birthday).toLocaleDateString('en-CA');
   const desc = form.desc;
   if (password.length < 6 || password.length > 14)
   {
@@ -30,7 +30,7 @@ const submitForm = async () =>
     type: 'error',
   })
   }
-  // const temp = await BuyerModifyAPI(account, password, nickname, sex, date, desc)
+  // const temp = await BuyerModifyAPI(account, password, nickname, sex, birthday, desc)
 }
 
 const resetForm = () => {

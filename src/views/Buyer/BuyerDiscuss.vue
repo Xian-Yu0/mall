@@ -4,7 +4,7 @@ import BuyerHeader from './BuyerHeader.vue';
 import BuyerNav from './BuyerNav.vue';
 import { onMounted, ref } from 'vue';
 import { useBuyerStore } from '@/stores/userInfo';
-import { ElMessage } from 'element-plus';
+import { ElMessage, ElMessageBox } from 'element-plus';
 import { BuyerCreatePostAPI } from '@/apis/Buyer';
 import { DeleteDiscussAPI, DeletePostAPI, GetDiscussAPI, GetPostListAPI } from '@/apis/Common';
 
@@ -28,12 +28,31 @@ onMounted(()=>{getDiscuss();})
 const deleteDiscuss = async () => {
 if (buyerInfo.account == discuss.value.DiscussById)
 {
-  // await DeleteDiscussAPI(route.params.id)
-  ElMessage({
-    message: '删除成功！',
-    type: 'success',
-  })
-  router.replace({ path : '/BuyerDiscussTable'});
+
+    ElMessageBox.confirm(
+    '确定永久删除您的帖子吗？',
+    '确认操作',
+    {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning',
+    }
+  )
+    .then(async () => {
+        // 若无需警告，则只需保留这几行
+        // await DeleteDiscussAPI(route.params.id)
+        ElMessage({
+          message: '删除成功！',
+          type: 'success',
+        })
+        router.replace({ path : '/BuyerDiscussTable'});
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'error',
+        message: '取消操作',
+      })
+    })  
 }
 else
 {
@@ -88,15 +107,34 @@ const deletePost = async (postId, postById) => {
   })
 }
 else {
-  // await DeletePostAPI(postId);
-  console.log(postId, postById)
-  ElMessage({
-    message: '删除成功！',
-    type: 'success',
-  })
-  setTimeout(() => {
-    window.location.reload();  // 1.5秒后刷新页面
-  }, 1500);
+
+    ElMessageBox.confirm(
+    '确定永久删除您的回帖吗？',
+    '确认操作',
+    {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning',
+    }
+  )
+    .then(async () => {
+        // 若无需警告，则只需保留这几行
+        // await DeletePostAPI(postId);
+        console.log(postId, postById)
+        ElMessage({
+        message: '删除成功！',
+        type: 'success',
+        })
+        setTimeout(() => {
+        window.location.reload();  // 1.5秒后刷新页面
+        }, 1500);
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'error',
+        message: '取消操作',
+      })
+    })
 }
 }
 
@@ -129,23 +167,12 @@ else {
                   发表于 {{ discuss.DiscussTime }} 
                 </el-row>
                 <el-row class="userName">
-
-                  <!-- <el-col v-if="postTheme.isTeacher === 1">
-                    {{postTheme.userNickName}}({{postTheme.userName}}) (教师)
-                  </el-col>
-                  <el-col v-else-if="postTheme.isTeacher === 2">
-                    {{postTheme.userNickName}}({{postTheme.userName}}) (管理员)
-                  </el-col>
-                  <el-col v-else>
-                    {{postTheme.userNickName}}({{postTheme.userName}})
-                  </el-col> -->
                   <el-col style="font-size: 19px; font-weight: 600;">
                     发帖人： {{ discuss.DiscussByName }}
                     <el-tag size="large" style=" margin-left: 10px;">
                     <span>{{ discuss.DiscussByType }}</span>
                     </el-tag>
                   </el-col>
-                  
                 </el-row>
               </el-col>
               <el-col :offset="2" :span="21" style="margin-top: -20px;">
@@ -177,26 +204,13 @@ else {
           <div v-for="post in postList" v-bind:key="1">
             <el-row >
               <el-col :span="1" :offset="1">
-                <!-- <el-image v-if="post.isTeacher === 1" :src="teacherImg" lazy></el-image>
-                <el-image v-else-if="post.isTeacher === 2" :src="adminImg" lazy></el-image>
-                <el-image v-else :src="studentImg" lazy></el-image> -->
-                <img src="../Buyer/img/post.png" alt="sorry">
-                <!-- <el-image src=""></el-image> -->
+                <img src="../../assets/DemoPic/post.png" alt="sorry">
               </el-col>
               <el-col :span="10" style="margin-left: 20px;">
                 <el-row class="time">
                   发表于 {{ post.postTime }}
                 </el-row>
                 <el-row class="userName">
-                  <!-- <div v-if="post.isTeacher === 1">
-                    {{post.userNickName}}({{post.userName}}) (教师) :
-                  </div>
-                  <div v-else-if="post.isTeacher === 2">
-                    {{post.userNickName}}({{post.userName}}) (管理员) :
-                  </div>
-                  <div v-else>
-                    {{post.userNickName}}({{post.userName}}) :
-                  </div> -->
                   <div>
                     {{ post.postByName }} ({{ post.postByType }}) :
                   </div>

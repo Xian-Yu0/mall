@@ -30,13 +30,19 @@ const createDiscuss = async () => {
   // const temp = await BuyerCreateDiscussAPI(account, date, title, content);
 }
 
-const myDiscussList = ref([]);
-const getMyDiscuss = async () => {
+const myDiscussNum = ref(0);
+const getMyDiscussNum = async () => {
   const account = buyerInfo.account;
   const temp = await BuyerGetMyDiscussAPI(account)
-  myDiscussList.value = temp.result;
+  myDiscussNum.value = temp.result.length;
 }
-onMounted(()=>{getMyDiscuss();}) 
+onMounted(()=>{getMyDiscussNum();}) 
+
+const searchMyDiscuss = async() => {
+  const account = buyerInfo.account;
+  const temp = await BuyerGetMyDiscussAPI(account)
+  DiscussList.value = temp.result
+}
 
 const DiscussList = ref([]);
 const getDiscussList = async() => {
@@ -67,13 +73,13 @@ const searchDiscuss = async() => {
                 <el-row>
                   <el-col :span="9">
                     <!-- <el-image :src=userImg lazy style="width: 10px;height: 10px;"></el-image> -->
-                     <img src="../../assets/images/user.png" alt="" style="width: 100px; height: 100px; margin-top: 15px; margin-left: 30px">
+                     <img src="../../assets/DemoPic/user.png" alt="" style="width: 100px; height: 100px; margin-top: 15px; margin-left: 30px">
                   </el-col>
                   <el-col :span="10" :offset="1">
                     <el-descriptions :column="1" style="margin-top: 15px;">
                       <el-descriptions-item label="账号">{{buyerInfo.account}}</el-descriptions-item>
                       <el-descriptions-item label="用户名">{{buyerInfo.nickname}}</el-descriptions-item>
-                      <el-descriptions-item label="已发帖子">{{myDiscussList.length}}</el-descriptions-item>
+                      <el-descriptions-item label="已发帖子">{{myDiscussNum}}</el-descriptions-item>
                     </el-descriptions>
                   </el-col>
                 </el-row>
@@ -108,14 +114,14 @@ const searchDiscuss = async() => {
 
 
     <el-row style="margin: 0px auto; width: 80%;">
-                <el-col :span="19">
+                <el-col :span="16">
                   <el-input
                     placeholder="查找相关帖子"
                     prefix-icon="el-icon-search" v-model="searchInput"
                     style="height: 40px;">
                   </el-input>
                 </el-col>
-                <el-col :span="2" style="margin-left: 20px;">
+            <el-col :span="2" style="margin-left: 25px;">
               <el-button
                 type="primary"
                 @click="searchDiscuss" style="height: 40px;">
@@ -123,6 +129,13 @@ const searchDiscuss = async() => {
               </el-button>
             </el-col>
             <el-col :span="2" style="margin-left: 10px;">
+              <el-button
+                type="primary"
+                @click="searchMyDiscuss" style="height: 40px;">
+                查看我的帖子
+              </el-button>
+            </el-col>
+            <el-col :span="2" style="margin-left: 40px;">
               <el-button
                 type="primary"
                 @click="getDiscussList" style="height: 40px;">

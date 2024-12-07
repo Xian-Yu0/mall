@@ -16,8 +16,8 @@ import AdminNav from './AdminNav.vue';
     <div class="container">
         <HomeBanner></HomeBanner>
     </div>
-    <HomeNew></HomeNew>
-    <HomeHot></HomeHot>
-    <HomeProduct></HomeProduct>
+    <HomeNew To="AdminDetail"></HomeNew>
+    <HomeHot To="AdminDetail"></HomeHot>
+    <HomeProduct To="AdminDetail"></HomeProduct>
     <HomeFooter></HomeFooter>
 </template>

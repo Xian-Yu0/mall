@@ -31,8 +31,18 @@ export function AdminCreatePostAPI(account, date, postContent) {
 
 export function AdminGetMyDiscussAPI(account) {
     // return httpRequest({ url: '/AdminGetMyDiscuss', params: { account } })
-    return { result: [{ DiscussId: '帖子ID', DiscussTitle: '帖子题目' }] }
+    let array = [];
+    for (let i = 0; i < 5; i++) {
+        array.push({ DiscussId: '我的帖子的ID', DiscussTitle: '我的帖子的题目', DiscussTime: '发帖时间', DiscussBy: '发帖人', DiscussByType: '管理员' })
+    }
+    // Time类均为xxxx-xx-xx格式
+    return { result: array }
 }
+
+// export function AdminGetMyDiscussAPI(account) {
+// return httpRequest({ url: '/AdminGetMyDiscuss', params: { account } })
+// return { result: [{ DiscussId: '帖子ID', DiscussTitle: '帖子题目' }] }
+// }
 
 export function AdminGetGoodsAPI() {
     // return httpRequest({
@@ -41,7 +51,7 @@ export function AdminGetGoodsAPI() {
     let array = []
     for (let i = 0; i < 9; i++) {
         array.push({
-            goodName: '商品名', goodBySellerId: '114514', goodId: '1919810', goodPic: 'src/apis/pic/2.png'
+            goodName: '商品名', goodBySellerId: '114514', goodId: '1919810', goodPic: 'src/assets/DemoPic/2.png'
         })
     }
     return { result: array }
@@ -63,7 +73,7 @@ export function AdminSearchGoodAPI(name) {
     let array = []
     for (let i = 0; i < 4; i++) {
         array.push({
-            goodName: '搜到的商品名', goodBySellerId: '114514', goodId: '1919810', goodPic: 'src/apis/pic/2.png'
+            goodName: '搜到的商品名', goodBySellerId: '114514', goodId: '1919810', goodPic: 'src/assets/DemoPic/2.png'
         })
     }
     return { result: array }
@@ -101,7 +111,7 @@ export function AdminGetSellerGoodsAPI(id) {
     let array = []
     for (let i = 0; i < 6; i++) {
         array.push({
-            goodName: '商家的商品名', goodId: '1919810', goodPic: 'src/apis/pic/2.png'
+            goodName: '商家的商品名', goodId: '1919810', goodPic: '../src/assets/DemoPic/2.png'
         })
     }
     return { result: array }

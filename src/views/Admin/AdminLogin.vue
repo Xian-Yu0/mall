@@ -8,7 +8,7 @@ import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import { useRouter } from 'vue-router'
-import { useAdminStore, useBuyerStore } from '@/stores/userInfo';
+import { useAdminStore } from '@/stores/userInfo';
 
 // 1. 准备表单对象
 const form = ref({
@@ -64,9 +64,9 @@ const doLogin = () => {
     <header class="login-header">
       <div class="container m-top-20">
         <h1 class="logo">
-          <RouterLink to="/BuyerHome">小兔鲜</RouterLink>
+          <RouterLink to="/">小兔鲜</RouterLink>
         </h1>
-        <RouterLink class="entry" to="/BuyerHome">
+        <RouterLink class="entry" to="/">
           进入网站首页
           <i class="iconfont icon-angle-right"></i>
           <i class="iconfont icon-angle-right"></i>
@@ -81,11 +81,11 @@ const doLogin = () => {
         <div class="account-box">
           <div class="form">
             <el-form ref="formRef" :model="form" :rules="rules" label-position="right" label-width="60px" status-icon>
-              <el-form-item prop="account" label="账户">
+              <el-form-item prop="account" label="账号">
                 <el-input v-model="form.account" />
               </el-form-item>
               <el-form-item prop="password" label="密码">
-                <el-input v-model="form.password" />
+                <el-input v-model="form.password" type="password"/>
               </el-form-item>
               <el-button size="large" class="subBtn" @click="doLogin()">点击登录</el-button>
             </el-form>

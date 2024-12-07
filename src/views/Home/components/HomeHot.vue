@@ -1,7 +1,13 @@
 <script setup>
-import HomePanel from './HomePanel.vue';
+defineProps({
+  To: {
+    type: String,
+    default: () => { }
+  }
+})
 
-import { getHotAPI } from '@/apis/home'
+import HomePanel from './HomePanel.vue';
+import { getHotAPI } from '@/apis/Home'
 import { onMounted, ref } from 'vue'
 const hotList = ref([])
 const getHotList = async () => {
@@ -16,18 +22,11 @@ onMounted(() => getHotList())
 <template>
   <HomePanel title="人气推荐" sub-title="人气爆款 不容错过">
     <ul class="goods-list">
-      <!-- <li v-for="item in hotList" :key="item.id">
-        <RouterLink to="/">
-          <img v-img-lazy="item.picture" alt="">
-          <p class="name">{{ item.title }}</p>
-          <p class="desc">{{ item.alt }}</p>
-        </RouterLink>
-      </li> -->
-      <li v-for="item in 4" :key="item.id">
-        <RouterLink to="/">
-          <img src="D:\123456\demoPic\2.png" alt="">
-          <p class="name">{{ 商品名称 }}</p>
-          <p class="desc">{{ 商品描述 }}</p>
+      <li v-for="item in hotList" :key="item.id">
+        <RouterLink :to="`/${To}/${item.id}`">
+          <img :src="item.pic" alt="">
+          <p class="name">{{ item.name }}</p>
+          <p class="desc">{{ item.desc }}</p>
         </RouterLink>
       </li>
     </ul>

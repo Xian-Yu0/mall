@@ -31,8 +31,8 @@
     </span>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item @click="$router.push('/BuyerLogin')">注册消费者账号</el-dropdown-item>
-        <el-dropdown-item @click="$router.push('/SellerLogin')">注册商家账号</el-dropdown-item>
+        <el-dropdown-item @click="$router.replace('/BuyerRegister')">注册消费者账号</el-dropdown-item>
+        <el-dropdown-item @click="$router.replace('/SellerLogin')">注册商家账号</el-dropdown-item>
       </el-dropdown-menu>
     </template>
 </el-dropdown>

@@ -1,19 +1,28 @@
 <script setup>
+
 defineProps({
-  goods: {
-    tppe: Object,
+  good: {
+    type: Object,
+    default: () => { }
+  },
+  To: {
+    type: String,
     default: () => { }
   }
 })
+
+// const buyerInfo = useBuyerStore().buyerInfo;
+// const adminInfo = useAdminStore().adminInfo;
+// const to = (buyerInfo.account != undefined )? `/BuyerDetail/${good.id}` : (adminInfo.account != undefined)? `/AdminDetail/${good.id}` : `/HomeDetail/${good.id}`;
 </script>
 
 
 <template>
-  <RouterLink to="/" class="goods-item">
-    <img v-img-lazy="goods.picture" alt="" />
-    <p class="name ellipsis">{{ goods.name }}</p>
-    <p class="desc ellipsis">{{ goods.desc }}</p>
-    <p class="price">&yen;{{ goods.price }}</p>
+  <RouterLink :to="`/${To}/${good.id}`" class="goods-item">
+    <img :src="good.picture" alt="" />
+    <p class="name ellipsis">{{ good.name }}</p>
+    <p class="desc ellipsis">{{ good.desc }}</p>
+    <p class="price">&yen;{{ good.price }}</p>
   </RouterLink>
 </template>
 

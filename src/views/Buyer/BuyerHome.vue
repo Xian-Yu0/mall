@@ -17,8 +17,8 @@ import BuyerNav from './BuyerNav.vue';
     <div class="container">
         <HomeBanner />
     </div>    
-        <HomeNew />
-        <HomeHot />
-        <HomeProduct />
+        <HomeNew To="BuyerDetail" />
+        <HomeHot To="BuyerDetail" />
+        <HomeProduct To="BuyerDetail" />
     <HomeFooter></HomeFooter>
 </template>

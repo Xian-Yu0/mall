@@ -1,26 +1,12 @@
 <script setup>
 import ImageView from '@/components/ImageView.vue';
-import BuyerNav from './BuyerNav.vue';
-import BuyerHeader from './BuyerHeader.vue';
-import BuyerComment from './BuyerComment.vue';
 import { onMounted, ref } from 'vue';
 import { GetGoodDetailAPI } from '@/apis/Common';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
+import HomeComment from './HomeComment.vue';
+import HomeNav from './HomeNav.vue';
+import HomeHeader from './HomeHeader.vue';
 
-// import { getDetailAPI } from '@/apis/Detail';
-// import { onMounted, ref } from 'vue';
-// import { useRoute } from 'vue-router';
-// import DetailHot from './components/DetailHot.vue';
-// import ImageView from '@/components/ImageView/index.vue'
-
-// const nowRoute = useRoute()
-// const detail = ref({})
-// const getDetail = async () => {
-//     const temp = await getDetailAPI(nowRoute.params.id)
-//     detail.value = temp.result
-// }
-
-// onMounted(() => {getDetail()})
 const route = useRoute();
 
 const goodInfo = ref({})
@@ -29,18 +15,17 @@ const getGoodDetail = async () => {
   goodInfo.value = temp.result
 }
 onMounted(()=>{getGoodDetail();}) 
-
 </script>
 
 <template>
-  <BuyerNav></BuyerNav>
-  <BuyerHeader></BuyerHeader>
+  <HomeNav></HomeNav>
+  <HomeHeader></HomeHeader>
   <div class="xtx-goods-page">
     <!-- 渲染模板时遇到对象的多层属性访问可能出现问题 -->
     <div class="container" v-if="true"> <!-- 在报错对数组Cannot read properties of undefined (reading '0')时使用此语法，属性值为该数组 -->
       <div class="bread-container">
         <el-breadcrumb separator=">">
-          <el-breadcrumb-item :to="{ path: '/BuyerHome' }">首页</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
           <el-breadcrumb-item>{{ goodInfo.goodName }}</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
@@ -79,12 +64,6 @@ onMounted(()=>{getGoodDetail();})
               <!-- 数据组件 -->
 
               <!-- 按钮组件 -->
-              <div>
-                <el-button size="large" class="btn">
-                  加入购物车
-                </el-button>
-                <!-- 购买时表单填写两个数据：1.件数  2.收货地址 -->
-              </div>
               <ul class="goods-sales" style="margin-left: -30px;">
                 <li>
                   <p>销量人气</p>
@@ -118,7 +97,7 @@ onMounted(()=>{getGoodDetail();})
       </div>
     </div>
   </div>
-  <BuyerComment></BuyerComment>
+  <HomeComment></HomeComment>
 </template>
 
 

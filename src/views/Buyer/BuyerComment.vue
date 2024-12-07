@@ -2,7 +2,7 @@
 import { BuyerCreateCommentAPI } from '@/apis/Buyer';
 import { DeleteCommentAPI, GetDetailCommentAPI } from '@/apis/Common';
 import { useBuyerStore } from '@/stores/userInfo';
-import { ElMessage } from 'element-plus';
+import { ElMessage, ElMessageBox } from 'element-plus';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
@@ -52,6 +52,18 @@ const deleteComment = async (commentById, commentId) => {
     }
     else
     {
+
+    ElMessageBox.confirm(
+    '确定永久删除您的评价吗？',
+    '确认操作',
+    {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning',
+    }
+  )
+    .then(async () => {
+        // 若无需警告，则只需保留这几行
         await DeleteCommentAPI(commentId)
         console.log(commentId)
         ElMessage({
@@ -61,6 +73,13 @@ const deleteComment = async (commentById, commentId) => {
         setTimeout(() => {
         window.location.reload();  // 1.5秒后刷新页面
         }, 1500);
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'error',
+        message: '取消操作',
+      })
+    })
     }
 }
 </script>

@@ -1,6 +1,12 @@
 <script setup>
-import HomePanel from './HomePanel.vue';
+defineProps({
+  To: {
+    type: String,
+    default: () => { }
+  }
+})
 
+import HomePanel from './HomePanel.vue';
 import { getNewAPI } from '@/apis/Home';
 import { onMounted, ref } from 'vue';
 
@@ -16,18 +22,11 @@ onMounted(() => {getNew()})
     <HomePanel title="新鲜好物" subtitle="新鲜出炉 品质靠谱">
         <div>
             <ul class="goods-list">
-                <!-- <li v-for="item in newList" :key="item.id">
-                    <RouterLink :to="`/detail/${item.id}`">
-                    <img :src="item.picture" alt="" />
+                <li v-for="item in newList" :key="item.id">
+                    <RouterLink :to="`/${To}/${item.id}`">
+                    <img :src="item.pic" alt="">
                     <p class="name">{{ item.name }}</p>
                     <p class="price">&yen;{{ item.price }}</p>
-                    </RouterLink>
-                </li> -->
-                <li v-for="item in 4" :key="item.id">
-                    <RouterLink :to="`/detail/${item.id}`">
-                    <img src="D:\123456\demoPic\2.png" alt="">
-                    <p class="name">{{ 我是名称 }}</p>
-                    <p class="price">&yen;{{ 我是价格 }}</p>
                     </RouterLink>
                 </li>
             </ul>

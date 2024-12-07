@@ -15,6 +15,8 @@ import AdminDiscussTable from '@/views/Admin/AdminDiscussTable.vue'
 import AdminDiscuss from '@/views/Admin/AdminDiscuss.vue'
 import AdminDetail from '@/views/Admin/AdminDetail.vue'
 import AdminSellerGoods from '@/views/Admin/AdminSellerGoods.vue'
+import HomeDetail from '@/views/Home/components/HomeDetail.vue'
+import BuyerRegister from '@/views/Buyer/BuyerRegister.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,7 +26,11 @@ const router = createRouter({
       name: 'Home',
       component: Home
     },
-    // 还应该有未登录时查看商品详细信息和进入论坛的功能
+    {
+      path: '/HomeDetail/:id',
+      name: 'HomeDetail',
+      component: HomeDetail
+    },
     {
       path: '/BuyerLogin',
       name: 'BuyerLogin',
@@ -40,11 +46,11 @@ const router = createRouter({
       name: 'AdminLogin',
       component: AdminLogin
     },
-    // {
-    //   path: '/BuyerRegister',
-    //   name: 'BuyerRegister',
-    //   component: BuyerRegister
-    // },
+    {
+      path: '/BuyerRegister',
+      name: 'BuyerRegister',
+      component: BuyerRegister
+    },
     // {
     //   path: '/SellerRegister',
     //   name: 'SellerRegister',
@@ -148,6 +154,7 @@ const router = createRouter({
     //   component: DiscussTable
     // },
 
+    // 以下被用Detail代替
     // // 进入商品详情页
     // {
     //   path: '/BuyerGood',
@@ -165,10 +172,14 @@ const router = createRouter({
     //   component: AdminGood
     // }
 
-    // 修改商品信息、管理员/卖家删除商品等：以后再说
+    // 卖家修改商品信息、管理员/卖家删除商品等：以后再说
     // 卖家不支持购买商品，卖家购买商品应该自己再注册一个买家的账号，而不应该把那么多功能耦合到一起
 
   ],
+  scrollBehavior(to, from, savedPosition) {
+    // 返回一个滚动位置
+    return { top: 0 }; // 强制滚动到顶部
+  }
 })
 
 export default router

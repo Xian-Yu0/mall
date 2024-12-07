@@ -1,6 +1,5 @@
 <script setup>
-import { DeleteCommentAPI, GetDetailCommentAPI } from '@/apis/Common';
-import { ElMessage, ElMessageBox } from 'element-plus';
+import { GetDetailCommentAPI } from '@/apis/Common';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
@@ -13,37 +12,6 @@ const getDetailComment = async () => {
     console.log(commentList.value)
 }
 onMounted(()=>{getDetailComment()});
-
-const deleteComment = async (commentId) => {
-    ElMessageBox.confirm(
-    '确定永久删除该评论吗？',
-    '确认操作',
-    {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-      type: 'warning',
-    }
-  )
-    .then(async () => {
-        // 若无需警告，则只需保留这几行
-        await DeleteCommentAPI(commentId)
-        console.log(commentId)
-        ElMessage({
-        message: '删除成功！',
-        type: 'success',
-        })
-        setTimeout(() => {
-        window.location.reload();  // 1.5秒后刷新页面
-        }, 1500);
-    })
-    .catch(() => {
-      ElMessage({
-        type: 'error',
-        message: '取消操作',
-      })
-    })
-}
-
 </script>
 
 
@@ -51,7 +19,6 @@ const deleteComment = async (commentId) => {
     <div class="core">
         <div style="margin-top: 30px;">
         <div v-for="comment in commentList" :key="comment.commentId" class="author-title reply-father">
-             <el-link type="danger" v-on:click="deleteComment(comment.commentId)" style="float: right; margin-top: 35px; margin-right: 30px;">删除</el-link>
             <div class="author-info" style="margin-top: 5px;">
                 <span class="author-name">{{comment.commentByName}}</span>
                 <span class="author-time" style="margin-top: 5px;">{{comment.CommentTime}}</span>

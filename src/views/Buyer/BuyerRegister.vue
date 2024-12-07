@@ -1,82 +1,74 @@
 <script setup>
 
-
-// 表单校验（账号名+密码）
-
-import { ref } from 'vue'
-
-import { ElMessage } from 'element-plus'
+import { onMounted, ref } from 'vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 import { useRouter } from 'vue-router'
-import { useBuyerStore } from '@/stores/userInfo';
+import { BuyerAllocAccountAPI, BuyerRegisterAPI } from '@/apis/Buyer';
+
+
+const newAccount = ref('')
+const allocAccount = async() => {
+    const temp = await BuyerAllocAccountAPI();
+    newAccount.value = temp.result;
+    form.value.account = newAccount.value + ' (系统分配)'
+}
+onMounted(()=>{allocAccount()});
+
 
 // 1. 准备表单对象
 const form = ref({
   account: '',
+  nickname: '',
+  sex: '',
+  birthday: '',
   password: '',
-  agree: true
+  desc: ''
 })
 
 // 2. 准备规则对象
 const rules = {
-  account: [
-    { required: true, message: '账号不能为空', trigger: 'blur' }
-  ],
   password: [
     { required: true, message: '密码不能为空', trigger: 'blur' },
     { min: 6, max: 14, message: '密码长度为6-14个字符', trigger: 'blur' },
   ],
-  agree: [
-    {
-      validator: (rule, value, callback) => {
-        console.log(value)
-        // 自定义校验逻辑
-        // 勾选就通过 不勾选就不通过
-        if (value) {
-          callback()
-        } else {
-          callback(new Error('请勾选协议'))
-        }
-      }
-    }
-  ]
+  nickname: [
+    { required: true, message: '请设置一个昵称', trigger: 'blur' },
+  ],
 }
 
 // 3. 获取form实例做统一校验
 const formRef = ref(null)
 const router = useRouter()
-
-const buyerStore = useBuyerStore();
-const doLogin = () => {
-  const { account, password } = form.value
-  // 调用实例方法
-  formRef.value.validate(async (valid) => {
-    // valid: 所有表单都通过校验  才为true
-    console.log(valid)
-    // 以valid做为判断条件 如果通过校验才执行登录逻辑
+const submitForm = async() => {
+    form.value.birthday = new Date(form.value.birthday).toLocaleDateString('en-CA');  // en-CA 是 ISO 格式 yyyy-MM-dd
+    formRef.value.validate(async (valid) => {
     if (valid) {
-      // TODO LOGIN
-      await buyerStore.setBuyerInfo({ account, password })
-      // 1. 提示用户
-      ElMessage({ type: 'success', message: '登录成功' })
-      // 2. 跳转首页
-      router.replace({ path: '/BuyerHome' })
+    ElMessageBox.confirm(
+    '我同意隐私条款和服务条款',
+    '隐私和服务条款',
+    {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning',
+    }
+  )
+    .then(async () => {
+      // 若不需要隐私和服务条款，则只需保留这几行
+      ElMessage({ type: 'success', message: '注册成功' })
+      console.log(newAccount.value, form.value.nickname, form.value.sex, form.value.birthday, form.value.password, form.value.desc);
+      // await BuyerRegisterAPI(newAccount.value, form.value.nickname, form.value.sex, form.value.birthday, form.value.password, form.value.desc);
+      setTimeout(() => {router.replace({path: '/BuyerLogin'})}, 1500);
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'error',
+        message: '同意条款后方可使用服务',
+      })
+    })
     }
   })
 }
-
-
-
-// 1. 用户名和密码 只需要通过简单的配置（看文档的方式 - 复杂功能通过多个不同组件拆解）
-// 2. 同意协议  自定义规则  validator:(rule,value,callback)=>{}
-// 3. 统一校验  通过调用form实例的方法 validate -> true
-
-// const login = () => {
-//   router.replace('/BuyerHome')
-//   let loginInfo = {userName: form.value.account}
-//   cookie.setCookie(loginInfo)
-// }
-
 </script>
 
 
@@ -97,24 +89,45 @@ const doLogin = () => {
     <section class="login-section">
       <div class="wrapper">
         <nav>
-          <a href="javascript:;">普通用户登录</a>
+          <a href="javascript:;">普通用户注册</a>
         </nav>
         <div class="account-box">
           <div class="form">
-            <el-form ref="formRef" :model="form" :rules="rules" label-position="right" label-width="60px" status-icon>
-              <el-form-item prop="account" label="账号">
-                <el-input v-model="form.account" />
-              </el-form-item>
-              <el-form-item prop="password" label="密码">
-                <el-input v-model="form.password"  type="password" autocomplete="off" />
-              </el-form-item>
-              <el-form-item prop="agree" label-width="22px">
-                <el-checkbox size="large" v-model="form.agree">
-                  我已同意隐私条款和服务条款
-                </el-checkbox>
-              </el-form-item>
-              <el-button size="large" class="subBtn" @click="doLogin()">点击登录</el-button>
-            </el-form>
+
+<el-form :model="form" label-width="auto" :rules="rules" style="max-width: 600px; margin: 20px auto;" ref="formRef">
+    <el-form-item label="您的账号">
+      <el-input v-model="form.account" disabled/>
+    </el-form-item>
+    <el-form-item label="您的昵称" prop="nickname">
+      <el-input v-model="form.nickname" />
+    </el-form-item>
+    <el-form-item label="您的性别" style="width: 70%;">
+      <el-select v-model="form.sex" placeholder="选择您的性别">
+        <el-option label="男" value="man" />
+        <el-option label="女" value="woman" />
+      </el-select>
+    </el-form-item>
+    <el-form-item label="您的出生日期">
+      <el-col :span="16">
+        <el-date-picker
+          v-model="form.birthday"
+          type="date"
+          placeholder="选择您的出生日期"
+          style="width: 100%"
+        />
+      </el-col>
+    </el-form-item>
+    <el-form-item label="您的密码" prop="password">
+      <el-input v-model="form.password" type="password" autocomplete="off" />
+    </el-form-item>
+    <el-form-item label="您的个性签名">
+      <el-input v-model="form.desc" type="textarea" :rows="2"/>
+    </el-form-item>
+    <el-form-item>
+      <el-button type="primary" @click="submitForm()" style="margin: 0 auto; width: 150px;">点击注册</el-button>
+    </el-form-item>
+</el-form>
+
           </div>
         </div>
       </div>
@@ -191,8 +204,8 @@ const doLogin = () => {
     width: 380px;
     background: #fff;
     position: absolute;
-    left: 50%;
-    top: 54px;
+    left: 33%;
+    top: 10px;
     transform: translate3d(100px, 0, 0);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 

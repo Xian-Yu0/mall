@@ -2,7 +2,7 @@
 import { useRoute, useRouter } from 'vue-router';
 import { onMounted, ref } from 'vue';
 import { useAdminStore } from '@/stores/userInfo';
-import { ElMessage } from 'element-plus';
+import { ElMessage, ElMessageBox } from 'element-plus';
 import AdminNav from './AdminNav.vue';
 import AdminHeader from './AdminHeader.vue';
 import { DeleteDiscussAPI, DeletePostAPI, GetDiscussAPI, GetPostListAPI } from '@/apis/Common';
@@ -24,13 +24,31 @@ onMounted(()=>{getDiscuss();})
 const adminInfo = useAdminStore().adminInfo;
 const deleteDiscuss = async () => 
 {
-  await DeleteDiscussAPI(route.params.id)
-  // console.log("删除成功")
-  ElMessage({
-    message: '删除成功！',
-    type: 'success',
-  })
-  router.replace({ path : '/AdminDiscussTable'});  
+     ElMessageBox.confirm(
+    '确定永久删除该帖子吗？',
+    '确认操作',
+    {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning',
+    }
+  )
+    .then(async () => {
+        // 若无需警告，则只需保留这几行
+        await DeleteDiscussAPI(route.params.id)
+        // console.log("删除成功")
+        ElMessage({
+          message: '删除成功！',
+          type: 'success',
+        })
+        router.replace({ path : '/AdminDiscussTable'});  
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'error',
+        message: '取消操作',
+      })
+    })
 }
 
 const dialogFormVisible = ref(false);
@@ -57,15 +75,34 @@ const getPostList = async() => {
 onMounted(()=>{getPostList();})
 
 const deletePost = async (postId) => {
-  // await DeletePostAPI(postId)
-  console.log(postId)
-  ElMessage({
-    message: '删除成功！',
-    type: 'success',
-  })
-    setTimeout(() => {
-    window.location.reload();  // 1.5秒后刷新页面
-  }, 1500);
+
+   ElMessageBox.confirm(
+    '确定永久删除该跟帖吗？',
+    '确认操作',
+    {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning',
+    }
+  )
+    .then(async () => {
+        // 若无需警告，则只需保留这几行
+        // await DeletePostAPI(postId)        
+        console.log(postId)
+        ElMessage({
+          message: '删除成功！',
+          type: 'success',
+        })
+        setTimeout(() => {
+         window.location.reload();  // 1.5秒后刷新页面
+        }, 1500);
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'error',
+        message: '取消操作',
+      })
+    })
 }
 
 </script>
@@ -134,11 +171,7 @@ const deletePost = async (postId) => {
           <div v-for="post in postList" v-bind:key="1">
             <el-row >
               <el-col :span="1" :offset="1">
-                <!-- <el-image v-if="post.isTeacher === 1" :src="teacherImg" lazy></el-image>
-                <el-image v-else-if="post.isTeacher === 2" :src="adminImg" lazy></el-image>
-                <el-image v-else :src="studentImg" lazy></el-image> -->
-                <img src="../Buyer/img/post.png" alt="sorry">
-                <!-- <el-image src=""></el-image> -->
+                <img src="../../assets/DemoPic/post.png" alt="sorry">
               </el-col>
               <el-col :span="10" style="margin-left: 20px;">
                 <el-row class="time">
