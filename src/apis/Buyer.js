@@ -23,12 +23,12 @@ export function BuyerModifyAPI(account, password, nickname, sex, birthday, desc)
 
 export function BuyerGetHistoryAPI(account) {
     // return httpRequest({ url: '/BuyerGetHistory', params: { account } })
-    const orderName = '北航'
-    const orderId = 'beihang order id'
+    const orderName = '洗护套装'
+    const orderId = '20308428013231'
     const orderNum = 4
-    const orderPrice = 11000
+    const orderPrice = 1870
     const orderDate = '2024-11-11'
-    const orderGoodId = '666666'
+    const orderGoodId = '12374811'
     const orderPos = '北京市北京航空航天大学'
     let array = []
     for (let i = 0; i < 9; i++) {

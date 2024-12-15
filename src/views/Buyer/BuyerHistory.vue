@@ -18,7 +18,7 @@ onMounted(() => { getHistory() })
 <template>
   <BuyerNav></BuyerNav>
   <BuyerHeader></BuyerHeader>
-  <h1>购物历史</h1>
+  <h1>历史订单</h1>
   <el-button type="primary" @click="$router.push('/BuyerHome')" style="margin-bottom: 10px;">返回主页</el-button>
   <el-descriptions class="list" title="" :column="4" border v-for="history in historyList"
     style="height: 100px; border-bottom: 1px solid #ccc;">
@@ -28,7 +28,7 @@ onMounted(() => { getHistory() })
           商品名称
         </div>
       </template>
-      {{ history.orderName }}123
+      {{ history.orderName }}
     </el-descriptions-item>
     <el-descriptions-item width="400px" label-width="200px" align='left' label-align='center'>
       <template #label>

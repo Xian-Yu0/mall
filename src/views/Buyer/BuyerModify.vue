@@ -4,6 +4,7 @@ import BuyerNav from './BuyerNav.vue';
 import { useBuyerStore } from '@/stores/userInfo';
 import { reactive } from 'vue'
 import { ElMessage } from 'element-plus';
+import { useRouter } from 'vue-router';
 import BuyerHeader from './BuyerHeader.vue';
 
 const buyerInfo = useBuyerStore().buyerInfo;
@@ -15,22 +16,27 @@ const form = reactive({
   sex: buyerInfo.sex
 })
 
-const submitForm = async () =>
-{
+const router = useRouter()
+const submitForm = async () => {
   const account = buyerInfo.account;
   const nickname = form.nickname;
   const password = form.password;
   const sex = form.sex;
   const birthday = new Date(form.birthday).toLocaleDateString('en-CA');
   const desc = form.desc;
-  if (password.length < 6 || password.length > 14)
-  {
+  if (password.length < 6 || password.length > 14) {
     ElMessage({
-    message: '密码长度不少于6位，不多于14位',
-    type: 'error',
-  })
+      message: '密码长度不少于6位，不多于14位',
+      type: 'error',
+    })
+    return;
   }
   // const temp = await BuyerModifyAPI(account, password, nickname, sex, birthday, desc)
+  ElMessage({
+    message: '提交成功!',
+    type: 'success'
+  })
+  router.push('/BuyerHome')
 }
 
 const resetForm = () => {
@@ -44,9 +50,9 @@ const resetForm = () => {
 </script>
 
 <template>
-    <BuyerNav></BuyerNav>
-    <BuyerHeader></BuyerHeader>
-    <h1 class="className"> 修改您的基本信息</h1>
+  <BuyerNav></BuyerNav>
+  <BuyerHeader></BuyerHeader>
+  <h1 class="className"> 修改您的基本信息</h1>
   <el-form :model="form" label-width="auto" style="max-width: 600px; margin: 20px auto; height: 500px;" ref="formRef">
     <el-form-item label="您的昵称">
       <el-input v-model="form.nickname" />
@@ -59,12 +65,7 @@ const resetForm = () => {
     </el-form-item>
     <el-form-item label="您的出生日期">
       <el-col :span="11">
-        <el-date-picker
-          v-model="form.birthday"
-          type="date"
-          placeholder="选择您的出生日期"
-          style="width: 100%"
-        />
+        <el-date-picker v-model="form.birthday" type="date" placeholder="选择您的出生日期" style="width: 100%" />
       </el-col>
     </el-form-item>
     <el-form-item label="您的密码" prop="pass">
@@ -82,9 +83,9 @@ const resetForm = () => {
 
 <style>
 .className {
-    text-align: center;
-    color: #1dc778;
-    font-weight: 500;
-    margin-top: 40px;
+  text-align: center;
+  color: #1dc778;
+  font-weight: 500;
+  margin-top: 40px;
 }
 </style>
