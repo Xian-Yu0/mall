@@ -3,9 +3,11 @@ import httpRequest from "@/utils/http";
 export function getBannerAPI() {
     // return httpRequest({ url: '/home/banner' })
     let array = [];
-    for (let i = 0; i < 5; i++) {
-        array.push("src/assets/DemoPic/1.jpg")
-    }
+    array.push("src/assets/DemoPic/banner5.jpg")
+    array.push("src/assets/DemoPic/banner4.jpg")
+    array.push("src/assets/DemoPic/banner3.jpg")
+    array.push("src/assets/DemoPic/banner2.jpg")
+    array.push("src/assets/DemoPic/banner1.jpg")
     return { result: array }
 }
 
