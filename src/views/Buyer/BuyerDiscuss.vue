@@ -96,6 +96,14 @@ const createPost = async () => {
   const date = `${year}-${month}-${day}`;
   console.log(account, date, postContent.value);
   // await BuyerCreatePostAPI(account, date, postContent)
+  dialogFormVisible.value = false
+  ElMessage({
+    message: '回帖成功！',
+    type: 'success',
+  })
+  setTimeout(() => {
+  window.location.reload();  // 1.5秒后刷新页面
+  }, 1500);
 }
 
 const deletePost = async (postId, postById) => {
@@ -193,7 +201,7 @@ else {
           </el-card>
 
           <el-dialog v-model="dialogFormVisible">
-            <el-input class="input" type="textarea" :rows="4" placeholder="与主题相关的讨论" v-model="postContent" style="margin-bottom: 20px;">
+            <el-input class="input" type="textarea" :rows="8" placeholder="与主题相关的讨论" v-model="postContent" style="margin-bottom: 20px;">
             </el-input>
             <div slot="footer" class="dialog-footer">
               <el-button @click="dialogFormVisible = false">取 消</el-button>

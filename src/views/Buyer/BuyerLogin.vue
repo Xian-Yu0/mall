@@ -56,7 +56,8 @@ const doLogin = () => {
     // 以valid做为判断条件 如果通过校验才执行登录逻辑
     if (valid) {
       // TODO LOGIN
-      await buyerStore.setBuyerInfo({ account, password })
+      const ok = await buyerStore.setBuyerInfo({ account, password })
+      if (ok == -1) return
       // 1. 提示用户
       ElMessage({ type: 'success', message: '登录成功' })
       // 2. 跳转首页

@@ -37,6 +37,10 @@ const createComment = async () => {
     console.log(score.value);
     console.log(goodId)
 
+    ElMessage({
+    message: '评论成功！',
+    type: 'success',
+  })
     setTimeout(() => {
     window.location.reload();  // 1.5秒后刷新页面
   }, 1500);

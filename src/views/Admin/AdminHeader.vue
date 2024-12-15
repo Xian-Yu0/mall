@@ -9,7 +9,7 @@
       </h1>
       <ul class="app-header-nav">
         <li class="home">
-          精选好物，超值优惠，尽在xx购物！
+          精选好物，超值优惠，尽在航行购物！
         </li>
         <li style="margin-left: -10px;"> <el-button type="success" @click="$router.push('/AdminHome')">进入商品首页</el-button> </li>
         <li> <el-button type="success" @click="$router.push('/AdminDiscussTable')">进入官方论坛</el-button> </li>
@@ -42,7 +42,7 @@
       height: 132px;
       width: 100%;
       text-indent: -9999px;
-      background: url('@/assets/images/logo.png') no-repeat center 18px / contain;
+      background: url('@/assets/images/logo.png') no-repeat center 0px / contain;
     }
   }
 

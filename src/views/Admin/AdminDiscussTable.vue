@@ -6,6 +6,7 @@ import AdminNav from './AdminNav.vue';
 import AdminHeader from './AdminHeader.vue';
 import { AdminCreateDiscussAPI, AdminGetMyDiscussAPI } from '@/apis/Admin';
 import { GetDiscussListAPI, SearchDiscussAPI } from '@/apis/Common';
+import { ElMessage } from 'element-plus';
 
 const adminInfo = useAdminStore().adminInfo
 const newDiscuss = ref(false);
@@ -25,7 +26,16 @@ const createDiscuss = async () => {
   console.log(title);
   console.log(content);
   // 需要三种分开，放入不同的表
-  const temp = await AdminCreateDiscussAPI(account, date, title, content);
+  // const temp = await AdminCreateDiscussAPI(account, date, title, content);
+
+  newDiscuss.value = false;
+  ElMessage({
+    message: '发帖成功！',
+    type: 'success',
+  })
+  setTimeout(() => {
+  window.location.reload();  // 1.5秒后刷新页面
+  }, 1500);
 }
 
 const myDiscussNum = ref(0);

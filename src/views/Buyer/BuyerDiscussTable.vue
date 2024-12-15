@@ -6,6 +6,7 @@ import { onMounted, ref } from 'vue';
 import { BuyerGetMyDiscussAPI, BuyerCreateDiscussAPI } from '@/apis/Buyer';
 import { useRouter } from 'vue-router';
 import { GetDiscussListAPI, SearchDiscussAPI } from '@/apis/Common';
+import { ElMessage } from 'element-plus';
 
 // import "quill/dist/quill.core.css";
 // import "quill/dist/quill.snow.css";
@@ -28,6 +29,14 @@ const createDiscuss = async () => {
   const content = input.value.content;
 
   // const temp = await BuyerCreateDiscussAPI(account, date, title, content);
+  newDiscuss.value = false;
+  ElMessage({
+    message: '发帖成功！',
+    type: 'success',
+  })
+  setTimeout(() => {
+  window.location.reload();  // 1.5秒后刷新页面
+  }, 1500);
 }
 
 const myDiscussNum = ref(0);
