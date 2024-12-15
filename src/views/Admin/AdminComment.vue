@@ -12,36 +12,36 @@ const getDetailComment = async () => {
     commentList.value = temp.result;
     console.log(commentList.value)
 }
-onMounted(()=>{getDetailComment()});
+onMounted(() => { getDetailComment() });
 
 const deleteComment = async (commentId) => {
     ElMessageBox.confirm(
-    '确定永久删除该评论吗？',
-    '确认操作',
-    {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-      type: 'warning',
-    }
-  )
-    .then(async () => {
-        // 若无需警告，则只需保留这几行
-        await DeleteCommentAPI(commentId)
-        console.log(commentId)
-        ElMessage({
-        message: '删除成功！',
-        type: 'success',
+        '确定永久删除该评论吗？',
+        '确认操作',
+        {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning',
+        }
+    )
+        .then(async () => {
+            // 若无需警告，则只需保留这几行
+            await DeleteCommentAPI(commentId)
+            console.log(commentId)
+            ElMessage({
+                message: '删除成功！',
+                type: 'success',
+            })
+            setTimeout(() => {
+                window.location.reload();  // 1.5秒后刷新页面
+            }, 1500);
         })
-        setTimeout(() => {
-        window.location.reload();  // 1.5秒后刷新页面
-        }, 1500);
-    })
-    .catch(() => {
-      ElMessage({
-        type: 'error',
-        message: '取消操作',
-      })
-    })
+        .catch(() => {
+            ElMessage({
+                type: 'error',
+                message: '取消操作',
+            })
+        })
 }
 
 </script>
@@ -50,29 +50,32 @@ const deleteComment = async (commentId) => {
 <template>
     <div class="core">
         <div style="margin-top: 30px;">
-        <div v-for="comment in commentList" :key="comment.commentId" class="author-title reply-father">
-             <el-link type="danger" v-on:click="deleteComment(comment.commentId)" style="float: right; margin-top: 35px; margin-right: 30px;">删除</el-link>
-            <div class="author-info" style="margin-top: 5px;">
-                <span class="author-name">{{comment.commentByName}}</span>
-                <span class="author-time" style="margin-top: 5px;">{{comment.CommentTime}}</span>
+            <div v-for="comment in commentList" :key="comment.commentId" class="author-title reply-father">
+                <el-link type="danger" v-on:click="deleteComment(comment.commentId)"
+                    style="float: right; margin-top: 35px; margin-right: 30px;">删除</el-link>
+                <div class="author-info" style="margin-top: 5px;">
+                    <span class="author-name">{{ comment.commentByName }}</span>
+                    <span class="author-time" style="margin-top: 5px;">{{ comment.CommentTime }}</span>
+                </div>
+                <div class="talk-box" style="margin-bottom: 7px;">
+                    <p style="font-size: 16px; color: black;">评分&nbsp;&nbsp;<span style="font-size: 20px;">{{
+                        comment.CommentScore }}.0</span></p>
+                    <p>
+                        <span class="reply">{{ comment.CommentContent }}</span>
+                    </p>
+                </div>
             </div>
-            <div class="talk-box" style="margin-bottom: 7px;">
-                <p style="font-size: 16px; color: black;">评分&nbsp;&nbsp;<span style="font-size: 20px;">{{ comment.CommentScore }}.0</span></p>
-                <p>
-                    <span class="reply">{{comment.CommentContent}}</span>
-                </p>
-            </div>
-        </div>    
         </div>
-        
+
     </div>
 </template>
-    
+
 <style scoped>
 .core {
     width: 80%;
     margin: 10px auto;
 }
+
 .my-reply {
     padding: 10px;
     background-color: #fafbfc;
@@ -137,7 +140,7 @@ const deleteComment = async (commentId) => {
     width: 100%;
 }
 
-.author-title:not(:last-child) {
+.author-title {
     border-top: 1px solid rgba(178, 186, 194, 0.3);
 }
 
@@ -158,7 +161,7 @@ const deleteComment = async (commentId) => {
     line-height: 20px;
 }
 
-.author-title .author-info > span {
+.author-title .author-info>span {
     display: block;
     cursor: pointer;
     overflow: hidden;
@@ -189,7 +192,7 @@ const deleteComment = async (commentId) => {
     }
 }
 
-.author-title .icon-btn > span {
+.author-title .icon-btn>span {
     cursor: pointer;
 }
 
@@ -201,7 +204,7 @@ const deleteComment = async (commentId) => {
     margin: 0 50px;
 }
 
-.talk-box > p {
+.talk-box>p {
     margin: 0;
 }
 

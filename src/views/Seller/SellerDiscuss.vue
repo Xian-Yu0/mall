@@ -1,19 +1,19 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router';
-import BuyerHeader from './BuyerHeader.vue';
-import BuyerNav from './BuyerNav.vue';
+import SellerHeader from './SellerHeader.vue';
+import SellerNav from './SellerNav.vue';
 import { onMounted, ref } from 'vue';
-import { useBuyerStore } from '@/stores/userInfo';
+import { useSellerStore } from '@/stores/userInfo';
 import { ElMessage, ElMessageBox } from 'element-plus';
-import { BuyerCreatePostAPI } from '@/apis/Buyer';
+import { SellerCreatePostAPI } from '@/apis/Seller';
 import { DeleteDiscussAPI, DeletePostAPI, GetDiscussAPI, GetPostListAPI } from '@/apis/Common';
 
 const route = useRoute();
 const router = useRouter();
-const buyerInfo = useBuyerStore().buyerInfo;
+const sellerInfo = useSellerStore().sellerInfo;
 
 const backToTable = () => {
-  router.push('/BuyerDiscussTable');
+  router.push('/SellerDiscussTable');
 }
 
 const discuss = ref({})
@@ -26,7 +26,7 @@ onMounted(() => { getDiscuss(); })
 
 
 const deleteDiscuss = async () => {
-  if (buyerInfo.account == discuss.value.DiscussById && discuss.value.DiscussByType == '消费者') {
+  if (sellerInfo.account == discuss.value.DiscussById && discuss.value.DiscussByType == '商家') {
 
     ElMessageBox.confirm(
       '确定永久删除您的帖子吗？',
@@ -44,7 +44,7 @@ const deleteDiscuss = async () => {
           message: '删除成功！',
           type: 'success',
         })
-        router.replace({ path: '/BuyerDiscussTable' });
+        router.replace({ path: '/SellerDiscussTable' });
       })
       .catch(() => {
         ElMessage({
@@ -71,7 +71,7 @@ const deleteDiscuss = async () => {
   //     message: '删除成功！',
   //     type: 'success',
   //   })
-  //   router.replace({ path : '/BuyerDiscussTable'});
+  //   router.replace({ path : '/SellerDiscussTable'});
   // }
 }
 
@@ -86,14 +86,14 @@ onMounted(() => { getPostList(); })
 const dialogFormVisible = ref(false);
 const postContent = ref('')
 const createPost = async () => {
-  const account = buyerInfo.account;
+  const account = sellerInfo.account;
   const now = new Date();
   const year = now.getFullYear();
   const month = String(now.getMonth() + 1).padStart(2, '0');
   const day = String(now.getDate()).padStart(2, '0');
   const date = `${year}-${month}-${day}`;
   console.log(account, date, postContent.value);
-  // await BuyerCreatePostAPI(account, date, postContent)
+  // await SellerCreatePostAPI(account, date, postContent)
   dialogFormVisible.value = false
   ElMessage({
     message: '回帖成功！',
@@ -105,7 +105,7 @@ const createPost = async () => {
 }
 
 const deletePost = async (postId, postById, postByType) => {
-  if (postByType != '消费者' || buyerInfo.account != postById) {
+  if (postByType != '商家' || sellerInfo.account != postById) {
     ElMessage({
       message: '您不能删除他人的回帖！',
       type: 'error',
@@ -147,8 +147,8 @@ const deletePost = async (postId, postById, postByType) => {
 
 <template>
   <div>
-    <BuyerNav></BuyerNav>
-    <BuyerHeader></BuyerHeader>
+    <SellerNav></SellerNav>
+    <SellerHeader></SellerHeader>
     <el-container class="background">
 
       <el-aside class="aside" width="show?'64px':'300px'">

@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { BuyerLoginAPI } from '@/apis/Buyer'
 import { AdminLoginAPI } from '@/apis/Admin'
+import { SellerLoginAPI } from '@/apis/Seller'
 import { ElMessage } from 'element-plus'
 
 export const useBuyerStore = defineStore('buyer', () => {
@@ -54,6 +55,33 @@ export const useAdminStore = defineStore('admin', () => {
         adminInfo,
         setAdminInfo,
         clearAdminInfo
+    }
+}, {
+    persist: true,
+})
+
+export const useSellerStore = defineStore('seller', () => {
+    const sellerInfo = ref({})   // 用户数据
+    // 登录
+    const setSellerInfo = async ({ account, password }) => {
+        const res = await SellerLoginAPI(account, password)
+        if (res.result.account == '') {
+            ElMessage({
+                message: '账号或密码错误',
+                type: 'error',
+            })
+            return -1;
+        }
+        sellerInfo.value = res.result;
+    }
+    // 退出登录
+    const clearSellerInfo = () => {
+        sellerInfo.value = {}
+    }
+    return {
+        sellerInfo,
+        setSellerInfo,
+        clearSellerInfo
     }
 }, {
     persist: true,

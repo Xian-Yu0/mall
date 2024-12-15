@@ -1,17 +1,54 @@
 <script setup>
-import { GetDetailCommentAPI } from '@/apis/Common';
+import { SellerCreateCommentAPI } from '@/apis/Seller';
+import { DeleteCommentAPI, GetDetailCommentAPI } from '@/apis/Common';
+import { useSellerStore } from '@/stores/userInfo';
+import { ElMessage, ElMessageBox } from 'element-plus';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
+const sellerInfo = useSellerStore().sellerInfo;
 
 const commentList = ref([])
 const getDetailComment = async () => {
     const temp = await GetDetailCommentAPI(route.params.id);
     commentList.value = temp.result;
-    console.log(commentList.value)
+    console.log(commentList.value);
 }
-onMounted(() => { getDetailComment() });
+onMounted(() => { getDetailComment(); })
+
+const score = ref(5);
+const createComment = async () => {
+    const account = sellerInfo.account;
+
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const date = `${year}-${month}-${day}`;
+
+    const content = document.getElementById("replyInput").innerText;
+
+    const goodId = route.params.id
+    // await SellerCreateCommentAPI(account, date, content, score.value, goodId);
+    console.log(account);
+    console.log(date);
+    console.log(content);
+    console.log(score.value);
+    console.log(goodId)
+
+    setTimeout(() => {
+        window.location.reload();  // 1.5秒后刷新页面
+    }, 1500);
+}
+
+const deleteComment = async (commentById, commentId) => {
+    ElMessage({
+        message: '您不能删除他人的评价！',
+        type: 'error',
+    })
+}
+
 </script>
 
 
@@ -19,13 +56,15 @@ onMounted(() => { getDetailComment() });
     <div class="core">
         <div style="margin-top: 30px;">
             <div v-for="comment in commentList" :key="comment.commentId" class="author-title reply-father">
+                <el-link type="danger" v-on:click="deleteComment(comment.commentById, comment.commentId)"
+                    style="float: right; margin-top: 35px; margin-right: 30px;">删除</el-link>
                 <div class="author-info" style="margin-top: 5px;">
                     <span class="author-name">{{ comment.commentByName }}</span>
                     <span class="author-time" style="margin-top: 5px;">{{ comment.CommentTime }}</span>
                 </div>
                 <div class="talk-box" style="margin-bottom: 7px;">
                     <p style="font-size: 16px; color: black;">评分&nbsp;&nbsp;<span style="font-size: 20px;">{{
-                            comment.CommentScore }}.0</span></p>
+                        comment.CommentScore }}.0</span></p>
                     <p>
                         <span class="reply">{{ comment.CommentContent }}</span>
                     </p>
@@ -68,13 +107,15 @@ onMounted(() => { getDetailComment() });
     min-height: 20px;
     line-height: 22px;
     padding: 10px 10px;
-    color: #ccc;
+    color: black;
     background-color: #fff;
     border-radius: 5px;
 }
 
 .my-reply .reply-input:empty::before {
     content: attr(placeholder);
+    color: #ccc;
+    /* placeholder 的颜色 */
 }
 
 .my-reply .reply-input:focus::before {

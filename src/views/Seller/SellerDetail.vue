@@ -1,14 +1,12 @@
 <script setup>
 import ImageView from '@/components/ImageView.vue';
-import BuyerNav from './BuyerNav.vue';
-import BuyerHeader from './BuyerHeader.vue';
-import BuyerComment from './BuyerComment.vue';
-import { useBuyerStore } from '@/stores/userInfo';
-import { BuyerCreateOrderAPI } from '@/apis/Buyer';
-import { ElMessage } from 'element-plus';
+import SellerNav from './SellerNav.vue';
+import SellerHeader from './SellerHeader.vue';
+import SellerComment from './SellerComment.vue';
 import { onMounted, ref } from 'vue';
 import { GetGoodDetailAPI } from '@/apis/Common';
 import { useRoute, useRouter } from 'vue-router';
+import { ElMessage } from 'element-plus';
 
 // import { getDetailAPI } from '@/apis/Detail';
 // import { onMounted, ref } from 'vue';
@@ -25,46 +23,25 @@ import { useRoute, useRouter } from 'vue-router';
 
 // onMounted(() => {getDetail()})
 const route = useRoute();
+const router = useRouter()
 
 const goodInfo = ref({})
 const getGoodDetail = async () => {
   const temp = await GetGoodDetailAPI(route.params.id)
   goodInfo.value = temp.result
 }
-onMounted(() => { getGoodDetail(); })
-
-const orderFill = ref(false);
-const order = ref({ orderNum: 1, orderPos: '' })
-const buyerInfo = useBuyerStore().buyerInfo
-const createOrder = async () => {
-  const orderBuyerId = buyerInfo.account
-  const orderGoodId = route.params.id
-
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, '0');
-  const day = String(now.getDate()).padStart(2, '0');
-  const orderDate = `${year}-${month}-${day}`;
-
-  // await BuyerCreateOrderAPI(orderBuyerId, orderGoodId, orderDate, order.value.orderNum, order.value.orderNum * goodInfo.value.goodPrice, order.value.orderPos);
-  console.log(orderBuyerId, orderGoodId, orderDate, order.value.orderNum, order.value.orderNum * goodInfo.value.goodPrice, order.value.orderPos);
-  orderFill.value = false
-  ElMessage({
-    message: '购买成功',
-    type: 'success',
-  })
-}
+onMounted(() => { getGoodDetail(); }) 
 </script>
 
 <template>
-  <BuyerNav></BuyerNav>
-  <BuyerHeader></BuyerHeader>
+  <SellerNav></SellerNav>
+  <SellerHeader></SellerHeader>
   <div class="xtx-goods-page">
     <!-- 渲染模板时遇到对象的多层属性访问可能出现问题 -->
     <div class="container" v-if="true"> <!-- 在报错对数组Cannot read properties of undefined (reading '0')时使用此语法，属性值为该数组 -->
       <div class="bread-container">
         <el-breadcrumb separator=">">
-          <el-breadcrumb-item :to="{ path: '/BuyerHome' }">首页</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/SellerHome' }">首页</el-breadcrumb-item>
           <el-breadcrumb-item>{{ goodInfo.goodName }}</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
@@ -102,34 +79,6 @@ const createOrder = async () => {
 
               <!-- 数据组件 -->
 
-              <!-- 按钮组件 -->
-              <div>
-                <el-button size="large" class="btn" @click="orderFill = true">
-                  点击购买
-                </el-button>
-                <!-- 购买时表单填写两个数据：1.件数  2.收货地址 -->
-                <el-dialog title="请填写相关信息" v-model="orderFill" width="40%">
-                  <el-row style="margin-bottom: 10px">
-                    <el-col>
-                      <h3 style="font-weight: 700; margin-bottom: 10px;">请选择您的购买件数 &nbsp;&nbsp;&nbsp;&nbsp;总价格:{{
-                        order.orderNum * goodInfo.goodPrice }}元</h3>
-                    </el-col>
-                    <el-col>
-                      <el-input-number v-model="order.orderNum" :min="1" :max="100" />
-                    </el-col>
-                  </el-row>
-                  <el-row>
-                    <el-col>
-                      <h3 style="font-weight: 700; margin-bottom: 10px;">请填写您的收货地址</h3>
-                      <el-input type="textarea" v-model="order.orderPos" placeholder="填写您的收货地址" :rows="4"></el-input>
-                    </el-col>
-                  </el-row>
-                  <div slot="footer" class="dialog-footer" style="margin-top: 3%">
-                    <el-button @click="orderFill = false">取消</el-button>
-                    <el-button type="primary" @click="createOrder">确定</el-button>
-                  </div>
-                </el-dialog>
-              </div>
               <ul class="goods-sales" style="margin-left: -30px;">
                 <li>
                   <p>销量人气</p>
@@ -163,7 +112,7 @@ const createOrder = async () => {
       </div>
     </div>
   </div>
-  <BuyerComment></BuyerComment>
+  <SellerComment></SellerComment>
 </template>
 
 

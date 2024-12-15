@@ -35,7 +35,7 @@ export function GetDiscussListAPI() {
     // return httpRequest( {url: '/GetDiscussList'} )
     let array = [];
     for (let i = 0; i < 9; i++) {
-        array.push({ DiscussId: '帖子ID', DiscussTitle: '帖子题目', DiscussTime: '发帖时间', DiscussBy: '发帖人', DiscussByType: '普通用户' })
+        array.push({ DiscussId: '帖子ID', DiscussTitle: '帖子题目', DiscussTime: '发帖时间', DiscussBy: '发帖人', DiscussByType: '消费者' })
     }
     // Time类均为xxxx-xx-xx格式
     return { result: array }
@@ -48,7 +48,7 @@ export function SearchDiscussAPI(name) {
     // })
     let array = [];
     for (let i = 0; i < 4; i++) {
-        array.push({ DiscussId: '搜到的帖子ID', DiscussTitle: '搜到的帖子题目', DiscussTime: '发帖时间', DiscussBy: '发帖人', DiscussByType: '普通用户' })
+        array.push({ DiscussId: '搜到的帖子ID', DiscussTitle: '搜到的帖子题目', DiscussTime: '发帖时间', DiscussBy: '发帖人', DiscussByType: '消费者' })
     }
     // Time类均为xxxx-xx-xx格式
     return { result: array }
@@ -56,7 +56,7 @@ export function SearchDiscussAPI(name) {
 
 export function GetDiscussAPI(id) {
     // return httpRequest({ url: '/GetDiscuss', params: { id } })
-    return { result: { DiscussTime: '我是时间122222', DiscussByType: '买家', DiscussByName: '我是发帖人昵称', DiscussContent: '我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容', DiscussById: '12345678' } }
+    return { result: { DiscussTime: '我是时间122222', DiscussByType: '消费者', DiscussByName: '我是发帖人昵称', DiscussContent: '我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容', DiscussById: '12345678' } }
 }
 
 export function DeleteDiscussAPI(id) {

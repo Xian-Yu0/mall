@@ -57,7 +57,7 @@ export function BuyerGetMyDiscussAPI(account) {
     // return httpRequest({ url: '/BuyerGetMyDiscuss', params: { account } })
     let array = [];
     for (let i = 0; i < 5; i++) {
-        array.push({ DiscussId: '我的帖子的ID', DiscussTitle: '我的帖子的题目', DiscussTime: '发帖时间', DiscussBy: '发帖人', DiscussByType: '普通用户' })
+        array.push({ DiscussId: '我的帖子的ID', DiscussTitle: '我的帖子的题目', DiscussTime: '发帖时间', DiscussBy: '发帖人', DiscussByType: '消费者' })
     }
     // Time类均为xxxx-xx-xx格式
     return { result: array }
@@ -83,5 +83,13 @@ export function BuyerRegisterAPI(account, nickname, sex, birthday, password, des
         url: '/BuyerRegister',
         method: 'POST',
         data: { account, nickname, sex, birthday, password, desc }
+    })
+}
+
+export function BuyerCreateOrderAPI(account, orderGoodId, orderDate, orderNum, orderPrice, orderPos) {
+    return httpRequest({
+        url: '/BuyerCreateOrder',
+        method: 'POST',
+        data: { account, orderGoodId, orderDate, orderNum, orderPrice, orderPos }
     })
 }

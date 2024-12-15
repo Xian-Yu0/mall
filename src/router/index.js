@@ -18,6 +18,16 @@ import AdminSellerGoods from '@/views/Admin/AdminSellerGoods.vue'
 import HomeDetail from '@/views/Home/components/HomeDetail.vue'
 import BuyerRegister from '@/views/Buyer/BuyerRegister.vue'
 
+import SellerDetail from '@/views/Seller/SellerDetail.vue'
+import SellerDiscuss from '@/views/Seller/SellerDiscuss.vue'
+import SellerHome from '@/views/Seller/SellerHome.vue'
+import SellerLogin from '@/views/Seller/SellerLogin.vue'
+import SellerRegister from '@/views/Seller/SellerRegister.vue'
+import SellerModify from '@/views/Seller/SellerModify.vue'
+import SellerDiscussTable from '@/views/Seller/SellerDiscussTable.vue'
+import SellerShop from '@/views/Seller/SellerShop.vue'
+import BuildGood from '@/views/Seller/BuildGood.vue'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -36,11 +46,11 @@ const router = createRouter({
       name: 'BuyerLogin',
       component: BuyerLogin
     },
-    // {
-    //   path: '/SellerLogin',
-    //   name: 'SellerLogin',
-    //   component: SellerLogin
-    // },
+    {
+      path: '/SellerLogin',
+      name: 'SellerLogin',
+      component: SellerLogin
+    },
     {
       path: '/AdminLogin',
       name: 'AdminLogin',
@@ -51,26 +61,22 @@ const router = createRouter({
       name: 'BuyerRegister',
       component: BuyerRegister
     },
-    // {
-    //   path: '/SellerRegister',
-    //   name: 'SellerRegister',
-    //   component: SellerRegister
-    // },
-    // {
-    //   path: '/AdminRegister',
-    //   name: 'AdminRegister',
-    //   component: AdminRegister
-    // },
+    {
+      path: '/SellerRegister',
+      name: 'SellerRegister',
+      component: SellerRegister
+    },
+
     {
       path: '/BuyerHome',
       name: 'BuyerHome',
       component: BuyerHome,
     },
-    // {
-    //   path: '/SellerHome',
-    //   name: 'SellerHome',
-    //   component: SellerHome
-    // },
+    {
+      path: '/SellerHome',
+      name: 'SellerHome',
+      component: SellerHome
+    },
     {
       path: '/AdminHome',
       name: 'AdminHome',
@@ -101,16 +107,26 @@ const router = createRouter({
       name: 'BuyerDetail',
       component: BuyerDetail
     },
-    // {
-    //   path: '/SellerModify',
-    //   name: 'SellerModify',
-    //   component: SellerModify
-    // },
-    // {
-    //   path: '/SellerShop',
-    //   name: 'SellerShop',
-    //   component: SellerShop
-    // },
+    {
+      path: '/SellerDetail/:id',
+      name: 'SellerDetail',
+      component: SellerDetail
+    },
+    {
+      path: '/SellerDiscuss/:id',
+      name: 'SellerDiscuss',
+      component: SellerDiscuss
+    },
+    {
+      path: '/SellerModify',
+      name: 'SellerModify',
+      component: SellerModify
+    },
+    {
+      path: '/SellerShop',
+      name: 'SellerShop',
+      component: SellerShop
+    },
     {
       path: '/AdminSellers',
       name: 'AdminSellers',
@@ -142,17 +158,22 @@ const router = createRouter({
       name: 'AdminSellerGoods',
       component: AdminSellerGoods
     },
-    // // 查看帖子
-    // {
-    //   path: '/BuyerDiscussTable',
-    //   name: 'BuyerDiscussTable',
-    //   component: BuyerDiscussTable
-    // },
-    // {
-    //   path: '/SellerDiscussTable',
-    //   name: 'DiscussTable',
-    //   component: DiscussTable
-    // },
+    // 查看帖子
+    {
+      path: '/BuyerDiscussTable',
+      name: 'BuyerDiscussTable',
+      component: BuyerDiscussTable
+    },
+    {
+      path: '/SellerDiscussTable',
+      name: 'SellerDiscussTable',
+      component: SellerDiscussTable
+    },
+    {
+      path: '/BuildGood',
+      name: 'BuildGood',
+      component: BuildGood
+    }
 
     // 以下被用Detail代替
     // // 进入商品详情页

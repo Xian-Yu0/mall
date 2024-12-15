@@ -15,7 +15,7 @@ const getDetailComment = async () => {
     commentList.value = temp.result;
     console.log(commentList.value);
 }
-onMounted(() => {getDetailComment();}) 
+onMounted(() => { getDetailComment(); })
 
 const score = ref(5);
 const createComment = async () => {
@@ -38,52 +38,50 @@ const createComment = async () => {
     console.log(goodId)
 
     ElMessage({
-    message: '评论成功！',
-    type: 'success',
-  })
+        message: '评论成功！',
+        type: 'success',
+    })
     setTimeout(() => {
-    window.location.reload();  // 1.5秒后刷新页面
-  }, 1500);
+        window.location.reload();  // 1.5秒后刷新页面
+    }, 1500);
 }
 
 const deleteComment = async (commentById, commentId) => {
-    if (commentById != buyerInfo.account)
-    {
+    if (commentById != buyerInfo.account) {
         ElMessage({
-        message: '您不能删除他人的评价！',
-        type: 'error',
+            message: '您不能删除他人的评价！',
+            type: 'error',
         })
     }
-    else
-    {
+    else {
 
-    ElMessageBox.confirm(
-    '确定永久删除您的评价吗？',
-    '确认操作',
-    {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-      type: 'warning',
-    }
-  )
-    .then(async () => {
-        // 若无需警告，则只需保留这几行
-        await DeleteCommentAPI(commentId)
-        console.log(commentId)
-        ElMessage({
-        message: '删除成功！',
-        type: 'success',
-        })
-        setTimeout(() => {
-        window.location.reload();  // 1.5秒后刷新页面
-        }, 1500);
-    })
-    .catch(() => {
-      ElMessage({
-        type: 'error',
-        message: '取消操作',
-      })
-    })
+        ElMessageBox.confirm(
+            '确定永久删除您的评价吗？',
+            '确认操作',
+            {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+            }
+        )
+            .then(async () => {
+                // 若无需警告，则只需保留这几行
+                await DeleteCommentAPI(commentId)
+                console.log(commentId)
+                ElMessage({
+                    message: '删除成功！',
+                    type: 'success',
+                })
+                setTimeout(() => {
+                    window.location.reload();  // 1.5秒后刷新页面
+                }, 1500);
+            })
+            .catch(() => {
+                ElMessage({
+                    type: 'error',
+                    message: '取消操作',
+                })
+            })
     }
 }
 </script>
@@ -92,24 +90,17 @@ const deleteComment = async (commentById, commentId) => {
 <template>
     <div class="core">
         <div class="my-reply">
-             <p style="color: black;">选择您的评分</p>
-             <el-radio-group v-model="score" size="large" style="color: black;">
+            <p style="color: black;">选择您的评分</p>
+            <el-radio-group v-model="score" size="large" style="color: black;">
                 <el-radio :value="1">1.0分</el-radio>
                 <el-radio :value="2">2.0分</el-radio>
                 <el-radio :value="3">3.0分</el-radio>
                 <el-radio :value="4">4.0分</el-radio>
                 <el-radio :value="5">5.0分</el-radio>
-             </el-radio-group>
-            <div class="reply-info" >
-                <div 
-                tabindex="0" 
-                contenteditable="true" 
-                id="replyInput" 
-                spellcheck="false" 
-                placeholder="输入评论..." 
-                class="reply-input" 
-                style="border: 2px solid #27ba9b;"
-                >
+            </el-radio-group>
+            <div class="reply-info">
+                <div tabindex="0" contenteditable="true" id="replyInput" spellcheck="false" placeholder="输入评论..."
+                    class="reply-input" style="border: 2px solid #27ba9b;">
                 </div>
             </div>
             <div class="reply-btn-box" style="margin-top: -35px;">
@@ -117,29 +108,32 @@ const deleteComment = async (commentById, commentId) => {
             </div>
         </div>
         <div style="margin-top: 30px;">
-        <div v-for="comment in commentList" :key="comment.commentId" class="author-title reply-father">
-             <el-link type="danger" v-on:click="deleteComment(comment.commentById, comment.commentId)" style="float: right; margin-top: 35px; margin-right: 30px;">删除</el-link>
-            <div class="author-info" style="margin-top: 5px;">
-                <span class="author-name">{{comment.commentByName}}</span>
-                <span class="author-time" style="margin-top: 5px;">{{comment.CommentTime}}</span>
+            <div v-for="comment in commentList" :key="comment.commentId" class="author-title reply-father">
+                <el-link type="danger" v-on:click="deleteComment(comment.commentById, comment.commentId)"
+                    style="float: right; margin-top: 35px; margin-right: 30px;">删除</el-link>
+                <div class="author-info" style="margin-top: 5px;">
+                    <span class="author-name">{{ comment.commentByName }}</span>
+                    <span class="author-time" style="margin-top: 5px;">{{ comment.CommentTime }}</span>
+                </div>
+                <div class="talk-box" style="margin-bottom: 7px;">
+                    <p style="font-size: 16px; color: black;">评分&nbsp;&nbsp;<span style="font-size: 20px;">{{
+                            comment.CommentScore }}.0</span></p>
+                    <p>
+                        <span class="reply">{{ comment.CommentContent }}</span>
+                    </p>
+                </div>
             </div>
-            <div class="talk-box" style="margin-bottom: 7px;">
-                <p style="font-size: 16px; color: black;">评分&nbsp;&nbsp;<span style="font-size: 20px;">{{ comment.CommentScore }}.0</span></p>
-                <p>
-                    <span class="reply">{{comment.CommentContent}}</span>
-                </p>
-            </div>
-        </div>    
         </div>
-        
+
     </div>
 </template>
-    
+
 <style scoped>
 .core {
     width: 80%;
     margin: 10px auto;
 }
+
 .my-reply {
     padding: 10px;
     background-color: #fafbfc;
@@ -173,7 +167,8 @@ const deleteComment = async (commentById, commentId) => {
 
 .my-reply .reply-input:empty::before {
     content: attr(placeholder);
-    color: #ccc;    /* placeholder 的颜色 */
+    color: #ccc;
+    /* placeholder 的颜色 */
 }
 
 .my-reply .reply-input:focus::before {
@@ -205,7 +200,7 @@ const deleteComment = async (commentById, commentId) => {
     width: 100%;
 }
 
-.author-title:not(:last-child) {
+.author-title {
     border-top: 1px solid rgba(178, 186, 194, 0.3);
 }
 
@@ -226,7 +221,7 @@ const deleteComment = async (commentById, commentId) => {
     line-height: 20px;
 }
 
-.author-title .author-info > span {
+.author-title .author-info>span {
     display: block;
     cursor: pointer;
     overflow: hidden;
@@ -257,7 +252,7 @@ const deleteComment = async (commentById, commentId) => {
     }
 }
 
-.author-title .icon-btn > span {
+.author-title .icon-btn>span {
     cursor: pointer;
 }
 
@@ -269,7 +264,7 @@ const deleteComment = async (commentById, commentId) => {
     margin: 0 50px;
 }
 
-.talk-box > p {
+.talk-box>p {
     margin: 0;
 }
 
