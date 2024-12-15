@@ -33,10 +33,10 @@ onMounted(() => { getHistory() })
     <el-descriptions-item width="400px" label-width="200px" align='left' label-align='center'>
       <template #label>
         <div class="cell-item">
-          商品编号
+          订单编号
         </div>
       </template>
-      {{ history.orderGoodId }}
+      {{ history.orderId }}
     </el-descriptions-item>
     <el-descriptions-item width="200px" label-width="100px" align='left' label-align='center'>
       <template #label>
