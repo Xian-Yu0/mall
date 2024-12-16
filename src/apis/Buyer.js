@@ -45,12 +45,13 @@ export function BuyerCreateDiscussAPI(account, date, title, content) {
     // })
 }
 
-export function BuyerCreatePostAPI(account, date, postContent) {
-    return httpRequest({
-        url: '/BuyerCreatePost',
-        method: 'POST',
-        data: { account, date, postContent }
-    })
+export function BuyerCreatePostAPI(account, discussID, date, postContent) {
+    // return httpRequest({
+    //     url: '/BuyerCreatePost',
+    //     method: 'POST',
+    //     data: { account, discussID, date, postContent }
+    // })
+    return 0
 }
 
 export function BuyerGetMyDiscussAPI(account) {

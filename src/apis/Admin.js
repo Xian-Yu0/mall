@@ -21,12 +21,13 @@ export function AdminCreateDiscussAPI(account, date, title, content) {
     })
 }
 
-export function AdminCreatePostAPI(account, date, postContent) {
-    return httpRequest({
-        url: '/AdminCreatePost',
-        method: 'POST',
-        data: { account, date, postContent }
-    })
+export function AdminCreatePostAPI(account, discussID, date, postContent) {
+    // return httpRequest({
+    //     url: '/AdminCreatePost',
+    //     method: 'POST',
+    //     data: { account, discussID, date, postContent }
+    // })
+    return 0
 }
 
 export function AdminGetMyDiscussAPI(account) {

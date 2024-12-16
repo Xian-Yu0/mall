@@ -98,7 +98,7 @@ const doLogin = () => {
     <section class="login-section">
       <div class="wrapper">
         <nav>
-          <a href="javascript:;">普通用户登录</a>
+          <a href="javascript:;">商家登录</a>
         </nav>
         <div class="account-box">
           <div class="form">

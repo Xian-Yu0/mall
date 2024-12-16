@@ -92,8 +92,8 @@ const createPost = async () => {
   const month = String(now.getMonth() + 1).padStart(2, '0');
   const day = String(now.getDate()).padStart(2, '0');
   const date = `${year}-${month}-${day}`;
-  console.log(account, date, postContent.value);
-  // await SellerCreatePostAPI(account, date, postContent)
+  console.log(account, route.params.id, date, postContent.value);
+  await SellerCreatePostAPI(account, route.params.id, date, postContent.value)
   dialogFormVisible.value = false
   ElMessage({
     message: '回帖成功！',
@@ -215,7 +215,7 @@ const deletePost = async (postId, postById, postByType) => {
               <el-col :span="1" :offset="1">
                 <img src="../../assets/DemoPic/post.png" alt="sorry">
               </el-col>
-              <el-col :span="10" style="margin-left: 20px;">
+              <el-col :span="20" style="margin-left: 20px;">
                 <el-row class="time">
                   发表于 {{ post.postTime }}
                 </el-row>
@@ -224,12 +224,14 @@ const deletePost = async (postId, postById, postByType) => {
                     {{ post.postByName }} ({{ post.postByType }}) :
                   </div>
                 </el-row>
-                <el-col class="content" :span="18" v-html="post.postContent"
+                <br>
+                <el-col class="content" :span="21" v-html="post.postContent"
                   style="font-size: 17px; word-break: break-all; text-indent: 2em;">
                 </el-col>
               </el-col>
               <!-- <el-col class="content" :span="18" v-html="post.postContent" style="font-size: 18px; word-break: break-all;">
               </el-col> -->
+              <br>
               <el-col class="delete" :span="30" style="float: right">
                 <div>
                   <el-link type="danger" v-on:click="deletePost(post.postId, post.postById, post.postByType)"

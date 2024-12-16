@@ -58,9 +58,9 @@ const deleteComment = async (commentId) => {
                     <span class="author-time" style="margin-top: 5px;">{{ comment.CommentTime }}</span>
                 </div>
                 <div class="talk-box" style="margin-bottom: 7px;">
-                    <p style="font-size: 16px; color: black;">评分&nbsp;&nbsp;<span style="font-size: 20px;">{{
+                    <p style="font-size: 16px; color: black; margin-left: -45px;">评分&nbsp;&nbsp;<span style="font-size: 20px;">{{
                         comment.CommentScore }}.0</span></p>
-                    <p>
+                    <p style="text-indent: 2em;">
                         <span class="reply">{{ comment.CommentContent }}</span>
                     </p>
                 </div>

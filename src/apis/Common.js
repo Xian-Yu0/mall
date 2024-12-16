@@ -31,6 +31,7 @@ export function GetDetailCommentAPI(id) {
     array.push({ commentId: '245422444', commentByName: '山里灵活', commentById: '评论者ID', CommentTime: '2024-12-04', CommentContent: '商品真不错！', CommentScore: 5 })
     array.push({ commentId: '245422444', commentByName: '我没有名字', commentById: '评论者ID', CommentTime: '2024-12-05', CommentContent: '下次还买', CommentScore: 4 })
     array.push({ commentId: '245422444', commentByName: '凯撒', commentById: '评论者ID', CommentTime: '2024-12-06', CommentContent: '已向亲友推荐', CommentScore: 5 })
+    array.push({ commentId: '245422444', commentByName: '凯撒', commentById: '评论者ID', CommentTime: '2024-12-06', CommentContent: '我觉得性价比挺高的已向亲友推荐我觉得性价比挺高的已向亲友推荐我觉得性价比挺高的已向亲友推荐我觉得性价比挺高的已向亲友推荐我觉得性价比挺高的已向亲友推荐我觉得性价比挺高的已向亲友推荐我觉得性价比挺高的已向亲友推荐我觉得性价比挺高的已向亲友推荐我觉得性价比挺高的已向亲友推荐我觉得性价比挺高的已向亲友推荐我觉得性价比挺高的已向亲友推荐我觉得性价比挺高的已向亲友推荐我觉得性价比挺高的已向亲友推荐', CommentScore: 5 })
     return { result: array }
 }
 
@@ -81,7 +82,7 @@ export function GetPostListAPI(id) {
     // }
     array.push({ postId: '1000000', postById: '12345678', postTime: '2024-10-01', postByName: '我是momo', postByType: '消费者', postContent: '我觉得还好吧' });
     array.push({ postId: '1000000', postById: '12345678', postTime: '2024-10-01', postByName: '我也是momo', postByType: '消费者', postContent: '我也遇到了类似的问题' });
-    array.push({ postId: '1000000', postById: '12345678', postTime: '2024-10-01', postByName: 'tiktok', postByType: '消费者', postContent: '我觉得性价比挺高的，没有出现你说的情况' });
+    array.push({ postId: '1000000', postById: '12345678', postTime: '2024-10-01', postByName: 'tiktok', postByType: '消费者', postContent: '我觉得性价比挺高的，没有出现你说的情况我觉得性价比挺高的，没有出现你说的情况我觉得性价比挺高的呀呀呀呀，没有出现你说的情况我觉得性价比挺高的，没有出现你说的情况我觉得性价比挺高的，没有出现你说的情况我觉得性价比挺高的，没有出现你说的情况我觉得性价比挺高的，没有出现你说的情况我觉得性价比挺高的，没有出现你说的情况' });
 
     return ({ result: array })
 }

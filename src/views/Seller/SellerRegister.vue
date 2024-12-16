@@ -89,7 +89,7 @@ const submitForm = async() => {
     <section class="login-section">
       <div class="wrapper">
         <nav>
-          <a href="javascript:;">普通用户注册</a>
+          <a href="javascript:;">商家注册</a>
         </nav>
         <div class="account-box">
           <div class="form">

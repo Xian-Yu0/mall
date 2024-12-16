@@ -32,12 +32,13 @@ export function SellerCreateDiscussAPI(account, date, title, content) {
     })
 }
 
-export function SellerCreatePostAPI(account, date, postContent) {
-    return httpRequest({
-        url: '/SellerCreatePost',
-        method: 'POST',
-        data: { account, date, postContent }
-    })
+export function SellerCreatePostAPI(account, discussID, date, postContent) {
+    // return httpRequest({
+    //     url: '/SellerCreatePost',
+    //     method: 'POST',
+    //     data: { account, discussID, date, postContent }
+    // })
+    return 0
 }
 
 export function SellerGetMyDiscussAPI(account) {
