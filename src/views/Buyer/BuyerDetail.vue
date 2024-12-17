@@ -29,7 +29,8 @@ const route = useRoute();
 const goodInfo = ref({})
 const getGoodDetail = async () => {
   const temp = await GetGoodDetailAPI(route.params.id)
-  goodInfo.value = temp.result
+  goodInfo.value = temp.data.result
+  goodInfo.value.goodPic = 'http://' + goodInfo.value.goodPic.substring(7).substring(0, 14) + ':' + goodInfo.value.goodPic.substring(7).substring(17)
 }
 onMounted(() => { getGoodDetail(); })
 
@@ -46,7 +47,7 @@ const createOrder = async () => {
   const day = String(now.getDate()).padStart(2, '0');
   const orderDate = `${year}-${month}-${day}`;
 
-  // await BuyerCreateOrderAPI(orderBuyerId, orderGoodId, orderDate, order.value.orderNum, order.value.orderNum * goodInfo.value.goodPrice, order.value.orderPos);
+  await BuyerCreateOrderAPI(orderBuyerId, orderGoodId, orderDate, order.value.orderNum, order.value.orderNum * goodInfo.value.goodPrice, order.value.orderPos);
   console.log(orderBuyerId, orderGoodId, orderDate, order.value.orderNum, order.value.orderNum * goodInfo.value.goodPrice, order.value.orderPos);
   orderFill.value = false
   ElMessage({
@@ -78,7 +79,7 @@ const createOrder = async () => {
               <!-- 统计数量 -->
 
             </div>
-            <div class="spec" v-if="goodInfo.goodDiscount">
+            <div class="spec">
               <!-- 商品信息区 -->
               <p class="g-name"> {{ goodInfo.goodName }} </p>
               <p class="g-desc"> {{ goodInfo.goodDesc }} </p>
@@ -88,12 +89,12 @@ const createOrder = async () => {
               <div class="g-service">
                 <dl>
                   <dt>促销</dt>
-                  <dd>{{ goodInfo.goodDiscount.cuxiao }}</dd>
+                  <dd>{{ goodInfo.cuxiao }}</dd>
                 </dl>
                 <dl>
                   <dt>服务</dt>
                   <dd>
-                    <span>{{ goodInfo.goodDiscount.fuwu }}</span>
+                    <span>{{ goodInfo.fuwu }}</span>
                     <a href="javascript:;">了解详情</a>
                   </dd>
                 </dl>

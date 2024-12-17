@@ -17,7 +17,7 @@ const backToTable = () => {
 const discuss = ref({})
 const getDiscuss = async () => {
   const temp = await GetDiscussAPI(route.params.id);
-  discuss.value = temp.result;
+  discuss.value = temp.data.result;
 }
 onMounted(() => { getDiscuss(); })
 
@@ -76,7 +76,7 @@ const postList = ref([])
 const getPostList = async () => {
   const id = route.params.id
   const temp = await GetPostListAPI(id)
-  postList.value = temp.result;
+  postList.value = temp.data.result;
   console.log(postList.value);
 }
 onMounted(() => { getPostList(); })
@@ -94,7 +94,7 @@ const deletePost = async (postId) => {
   )
     .then(async () => {
       // 若无需警告，则只需保留这几行
-      // await DeletePostAPI(postId)        
+      await DeletePostAPI(postId)        
       console.log(postId)
       ElMessage({
         message: '删除成功！',

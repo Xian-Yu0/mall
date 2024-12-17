@@ -19,8 +19,7 @@ const backToTable = () => {
 const discuss = ref({})
 const getDiscuss = async () => {
   const temp = await GetDiscussAPI(route.params.id)
-  discuss.value = temp.result;
-  console.log(discuss.DiscussContent)
+  discuss.value = temp.data.result;
 }
 onMounted(() => { getDiscuss(); })
 
@@ -39,7 +38,7 @@ const deleteDiscuss = async () => {
     )
       .then(async () => {
         // 若无需警告，则只需保留这几行
-        // await DeleteDiscussAPI(route.params.id)
+        await DeleteDiscussAPI(route.params.id)
         ElMessage({
           message: '删除成功！',
           type: 'success',
@@ -78,7 +77,8 @@ const deleteDiscuss = async () => {
 const postList = ref([])
 const getPostList = async () => {
   const temp = await GetPostListAPI(route.params.id)
-  postList.value = temp.result;
+  console.log(route.params.id)
+  postList.value = temp.data.result;
   console.log(postList.value);
 }
 onMounted(() => { getPostList(); })
@@ -124,7 +124,7 @@ const deletePost = async (postId, postById, postByType) => {
     )
       .then(async () => {
         // 若无需警告，则只需保留这几行
-        // await DeletePostAPI(postId);
+        await DeletePostAPI(postId);
         console.log(postId, postById)
         ElMessage({
           message: '删除成功！',

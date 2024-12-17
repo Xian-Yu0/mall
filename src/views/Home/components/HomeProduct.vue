@@ -13,7 +13,11 @@ import GoodItem from './GoodItem.vue';
 const GoodList = ref([])
 const getGoods = async () => {
   const temp = await getGoodsAPI()     //不一样
-  GoodList.value = temp.result            //不一样
+  GoodList.value = temp.data.result            //不一样
+  for (let i = 0; i < GoodList.value.length; i++)
+{
+  GoodList.value[i].picture = 'http://' + GoodList.value[i].picture.substring(7).substring(0, 14) + ':' + GoodList.value[i].picture.substring(7).substring(17)
+}
 }
 onMounted(() => {getGoods()})
 </script>

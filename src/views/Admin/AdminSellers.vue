@@ -10,7 +10,7 @@ const router = useRouter()
 const sellers = ref([])
 const getSellers = async () => {
   const temp = await AdminGetSellersAPI();
-  sellers.value = temp.result;
+  sellers.value = temp.data.result;
   searchInput.value = ''
 }
 onMounted(()=>{getSellers()})
@@ -18,7 +18,7 @@ onMounted(()=>{getSellers()})
 const searchInput = ref('')
 const searchSeller = async() => {
   const temp = await AdminSearchSellerAPI(searchInput.value)
-  sellers.value = temp.result;
+  sellers.value = temp.data.result;
 }
 
 const enterSeller = (id) => {

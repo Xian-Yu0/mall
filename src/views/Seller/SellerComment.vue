@@ -12,7 +12,7 @@ const sellerInfo = useSellerStore().sellerInfo;
 const commentList = ref([])
 const getDetailComment = async () => {
     const temp = await GetDetailCommentAPI(route.params.id);
-    commentList.value = temp.result;
+    commentList.value = temp.data.result;
     console.log(commentList.value);
 }
 onMounted(() => { getDetailComment(); })
@@ -30,7 +30,7 @@ const createComment = async () => {
     const content = document.getElementById("replyInput").innerText;
 
     const goodId = route.params.id
-    // await SellerCreateCommentAPI(account, date, content, score.value, goodId);
+    await SellerCreateCommentAPI(account, date, content, score.value, goodId);
     console.log(account);
     console.log(date);
     console.log(content);

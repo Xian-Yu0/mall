@@ -10,7 +10,7 @@ const buyerInfo = useBuyerStore().buyerInfo;
 const historyList = ref([]);
 const getHistory = async () => {
   const temp = await BuyerGetHistoryAPI(buyerInfo.account);
-  historyList.value = temp.result;
+  historyList.value = temp.data.result;
   console.log(historyList.value)
 }
 onMounted(() => { getHistory() })

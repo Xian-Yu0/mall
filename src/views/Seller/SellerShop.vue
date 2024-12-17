@@ -6,16 +6,25 @@ import { SellerDeleteGoodAPI,SellerGetSellerGoodsAPI } from '@/apis/Seller';
 import { useRoute, useRouter } from 'vue-router';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import 'element-plus/theme-chalk/el-message-box.css';
+import { useSellerStore } from '@/stores/userInfo';
 
 const router = useRouter();
 const route = useRoute();
-
+const sellerInfo = useSellerStore().sellerInfo
 
 //获得自己的商品
 const sellerGoods = ref([])
 const getSellerGoods = async () => {
-  const temp = await SellerGetSellerGoodsAPI(route.params.id)
-  sellerGoods.value = temp.result;
+  const temp = await SellerGetSellerGoodsAPI(sellerInfo.account)
+  sellerGoods.value = temp.data.result;
+  for (let i = 0; i < sellerGoods.value.length; i++)
+{
+   sellerGoods.value[i].goodPic = 'http://' + sellerGoods.value[i].goodPic.substring(7).substring(0, 14) + ':' + sellerGoods.value[i].goodPic.substring(7).substring(17)
+   console.log(sellerGoods.value[i].goodPic)
+}
+  // console.log(sellerGoods.value[0].goodPic)
+  // const str = sellerGoods.value[0].goodPic.substring(7).substring(0, 14) + ':' + sellerGoods.value[0].goodPic.substring(7).substring(17)
+  // console.log(str)
 }
 onMounted(()=>{getSellerGoods();})
 
@@ -80,7 +89,8 @@ const addGood = async() => {
             <el-row> 
               <el-col :offset="2" :span="2">
                 <!-- 此处图片加载不出来是使用了相对路径，且当前路由比SellerGoods多了一个/导致的问题 实际从后端拿到绝对路径后就没有该问题了 -->
-                <el-image :src="sellerGood.goodPic" lazy></el-image>
+                <!-- <el-image :src="sellerGood.goodPic" lazy></el-image> -->
+                <img :src=sellerGood.goodPic alt="">
               </el-col>
               <el-col :offset="2" :span="14">
                 <el-row style="margin-bottom: 3%">

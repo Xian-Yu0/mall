@@ -12,8 +12,9 @@ const route = useRoute();
 const goodInfo = ref({})
 const getGoodDetail = async () => {
   const temp = await GetGoodDetailAPI(route.params.id)
-  goodInfo.value = temp.result
-}
+  goodInfo.value = temp.data.result
+  goodInfo.value.goodPic = 'http://' + goodInfo.value.goodPic.substring(7).substring(0, 14) + ':' + goodInfo.value.goodPic.substring(7).substring(17)
+ }
 onMounted(()=>{getGoodDetail();}) 
 </script>
 

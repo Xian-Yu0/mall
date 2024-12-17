@@ -13,7 +13,11 @@ const route = useRoute();
 const sellerGoods = ref([])
 const getSellerGoods = async () => {
   const temp = await AdminGetSellerGoodsAPI(route.params.id)
-  sellerGoods.value = temp.result;
+  sellerGoods.value = temp.data.result;
+  for (let i = 0; i < sellerGoods.value.length; i++)
+{
+   sellerGoods.value[i].goodPic = 'http://' + sellerGoods.value[i].goodPic.substring(7).substring(0, 14) + ':' + sellerGoods.value[i].goodPic.substring(7).substring(17)
+}
 }
 onMounted(()=>{getSellerGoods();})
 

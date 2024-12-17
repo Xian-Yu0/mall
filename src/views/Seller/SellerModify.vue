@@ -31,7 +31,8 @@ const submitForm = async () => {
     })
     return
   }
-  // const temp = await SellerModifyAPI(account, password, nickname, sex, birthday, desc)
+  await SellerModifyAPI(account, password, nickname, sex, birthday, desc)
+  await useSellerStore().setSellerInfo({ account, password })
   ElMessage({
     message: '提交成功!',
     type: 'success'

@@ -28,7 +28,7 @@ const createDiscuss = async () => {
   const title = input.value.title;
   const content = input.value.content;
 
-  // const temp = await SellerCreateDiscussAPI(account, date, title, content);
+  await SellerCreateDiscussAPI(account, date, title, content);
   newDiscuss.value = false;
   ElMessage({
     message: '发帖成功！',
@@ -43,20 +43,20 @@ const myDiscussNum = ref(0);
 const getMyDiscussNum = async () => {
   const account = sellerInfo.account;
   const temp = await SellerGetMyDiscussAPI(account)
-  myDiscussNum.value = temp.result.length;
+  myDiscussNum.value = temp.data.result.length;
 }
 onMounted(() => { getMyDiscussNum(); })
 
 const searchMyDiscuss = async () => {
   const account = sellerInfo.account;
   const temp = await SellerGetMyDiscussAPI(account)
-  DiscussList.value = temp.result
+  DiscussList.value = temp.data.result
 }
 
 const DiscussList = ref([]);
 const getDiscussList = async () => {
   const temp = await GetDiscussListAPI();
-  DiscussList.value = temp.result;
+  DiscussList.value = temp.data.result;
   searchInput.value = ''
 }
 onMounted(() => { getDiscussList(); })
@@ -69,7 +69,7 @@ const enterDiscuss = (DiscussId) => {
 const searchInput = ref('')
 const searchDiscuss = async () => {
   const temp = await SearchDiscussAPI(searchInput.value);
-  DiscussList.value = temp.result
+  DiscussList.value = temp.data.result
 }
 
 </script>

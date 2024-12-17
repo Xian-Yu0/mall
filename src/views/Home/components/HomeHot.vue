@@ -12,7 +12,11 @@ import { onMounted, ref } from 'vue'
 const hotList = ref([])
 const getHotList = async () => {
   const res = await getHotAPI()
-  hotList.value = res.result
+  hotList.value = res.data.result
+  for (let i = 0; i < hotList.value.length; i++)
+{
+  hotList.value[i].pic = 'http://' + hotList.value[i].pic.substring(7).substring(0, 14) + ':' + hotList.value[i].pic.substring(7).substring(17)
+}
 }
 onMounted(() => getHotList())
 

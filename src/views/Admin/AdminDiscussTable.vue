@@ -26,7 +26,7 @@ const createDiscuss = async () => {
   console.log(title);
   console.log(content);
   // 需要三种分开，放入不同的表
-  // const temp = await AdminCreateDiscussAPI(account, date, title, content);
+  await AdminCreateDiscussAPI(account, date, title, content);
 
   newDiscuss.value = false;
   ElMessage({
@@ -42,21 +42,21 @@ const myDiscussNum = ref(0);
 const getMyDiscussNum = async () => {
   const account = adminInfo.account;
   const temp = await AdminGetMyDiscussAPI(account)
-  myDiscussNum.value = temp.result.length;
+  myDiscussNum.value = temp.data.result.length;
 }
 onMounted(()=>{getMyDiscussNum();}) 
 
 const searchMyDiscuss = async() => {
   const account = adminInfo.account
   const temp = await AdminGetMyDiscussAPI(account)
-  discussList.value = temp.result
+  discussList.value = temp.data.result
 }
 
 const discussList = ref([]);
 const getDiscussList = async() => {
 // 不需要三种分开
   const temp = await GetDiscussListAPI()
-  discussList.value = temp.result;
+  discussList.value = temp.data.result;
   searchInput.value = ''
 }
 onMounted(()=>{getDiscussList()})
@@ -69,7 +69,7 @@ const enterDiscuss = (DiscussId) => {
 const searchInput = ref('')
 const searchDiscuss = async() => {
   const temp = await SearchDiscussAPI(searchInput.value);
-  discussList.value = temp.result
+  discussList.value = temp.data.result
 }
 
 </script>

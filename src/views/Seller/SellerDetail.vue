@@ -28,7 +28,10 @@ const router = useRouter()
 const goodInfo = ref({})
 const getGoodDetail = async () => {
   const temp = await GetGoodDetailAPI(route.params.id)
-  goodInfo.value = temp.result
+  goodInfo.value = temp.data.result
+  console.log(temp.data)
+  console.log(goodInfo.value.goodName)
+  goodInfo.value.goodPic = 'http://' + goodInfo.value.goodPic.substring(7).substring(0, 14) + ':' + goodInfo.value.goodPic.substring(7).substring(17)
 }
 onMounted(() => { getGoodDetail(); }) 
 </script>
@@ -55,7 +58,7 @@ onMounted(() => { getGoodDetail(); })
               <!-- 统计数量 -->
 
             </div>
-            <div class="spec" v-if="goodInfo.goodDiscount">
+            <div class="spec">
               <!-- 商品信息区 -->
               <p class="g-name"> {{ goodInfo.goodName }} </p>
               <p class="g-desc"> {{ goodInfo.goodDesc }} </p>
@@ -65,12 +68,12 @@ onMounted(() => { getGoodDetail(); })
               <div class="g-service">
                 <dl>
                   <dt>促销</dt>
-                  <dd>{{ goodInfo.goodDiscount.cuxiao }}</dd>
+                  <dd>{{ goodInfo.cuxiao }}</dd>
                 </dl>
                 <dl>
                   <dt>服务</dt>
                   <dd>
-                    <span>{{ goodInfo.goodDiscount.fuwu }}</span>
+                    <span>{{ goodInfo.fuwu }}</span>
                     <a href="javascript:;">了解详情</a>
                   </dd>
                 </dl>

@@ -12,7 +12,11 @@ const router = useRouter();
 const goods = ref([])
 const getGoods = async () => {
   const temp = await AdminGetGoodsAPI();
-  goods.value = temp.result;
+  goods.value = temp.data.result;
+  for (let i = 0; i < goods.value.length; i++)
+{
+   goods.value[i].goodPic = 'http://' + goods.value[i].goodPic.substring(7).substring(0, 14) + ':' + goods.value[i].goodPic.substring(7).substring(17)
+}
   searchInput.value = ''
 }
 onMounted(()=>{getGoods();})
@@ -52,7 +56,11 @@ const deleteGood = async(id) => {
 const searchInput = ref('')
 const searchGood = async() => {
   const temp = await AdminSearchGoodAPI(searchInput.value)
-  goods.value = temp.result
+  goods.value = temp.data.result
+  for (let i = 0; i < goods.value.length; i++)
+{
+   goods.value[i].goodPic = 'http://' + goods.value[i].goodPic.substring(7).substring(0, 14) + ':' + goods.value[i].goodPic.substring(7).substring(17)
+}
 }
 
 </script>

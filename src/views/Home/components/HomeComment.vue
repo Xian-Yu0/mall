@@ -8,7 +8,7 @@ const route = useRoute();
 const commentList = ref([])
 const getDetailComment = async () => {
     const temp = await GetDetailCommentAPI(route.params.id);
-    commentList.value = temp.result;
+    commentList.value = temp.data.result;
     console.log(commentList.value)
 }
 onMounted(() => { getDetailComment() });

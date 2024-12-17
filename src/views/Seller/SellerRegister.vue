@@ -10,7 +10,7 @@ import { SellerAllocAccountAPI, SellerRegisterAPI } from '@/apis/Seller';
 const newAccount = ref('')
 const allocAccount = async() => {
     const temp = await SellerAllocAccountAPI();
-    newAccount.value = temp.result;
+    newAccount.value = temp.data.result;
     form.value.account = newAccount.value + ' (系统分配)'
 }
 onMounted(()=>{allocAccount()});
@@ -57,7 +57,7 @@ const submitForm = async() => {
       // 若不需要隐私和服务条款，则只需保留这几行
       ElMessage({ type: 'success', message: '注册成功' })
       console.log(newAccount.value, form.value.nickname, form.value.sex, form.value.birthday, form.value.password, form.value.desc);
-      // await SellerRegisterAPI(newAccount.value, form.value.nickname, form.value.sex, form.value.birthday, form.value.password, form.value.desc);
+      await SellerRegisterAPI(newAccount.value, form.value.nickname, form.value.sex, form.value.birthday, form.value.password, form.value.desc);
       setTimeout(() => {router.replace({path: '/SellerLogin'})}, 1500);
     })
     .catch(() => {

@@ -4,16 +4,16 @@
     <h2>添加商品</h2>
     <form @submit.prevent="addGood">
       <div class="form-group">
-        <label for="account">商品名称</label>
-        <input type="text" id="account" v-model="account" required>
-      </div>
-      <div class="form-group">
         <label for="name">商品名称</label>
         <input type="text" id="name" v-model="goodName" required>
       </div>
       <div class="form-group">
         <label for="price">商品价格</label>
         <input type="number" id="price" v-model="goodPrice" step="0.01" required>
+      </div>
+      <div class="form-group">
+        <label for="promotion">商品描述</label>
+        <textarea id="promotion" v-model="goodDesc" required></textarea>
       </div>
       <div class="form-group">
         <label for="promotion">促销信息</label>
@@ -33,49 +33,97 @@
   </div>
 </template>
 
-<script>
+<script setup>
 
 import { SellerCreateGoods } from '@/apis/Seller';
+import { useSellerStore } from '@/stores/userInfo'
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-export default {
-  data() {
-    return {
-      account:'',
-      goodName: '',
-      goodPrice: 0,
-      goodPromotion: '',
-      goodService: '',
-      goodPic: null
+const router = useRouter();
+const goodName = ref('')
+const goodPrice = ref('')
+const goodPromotion = ref('')
+const goodService = ref('')
+const goodDesc = ref('')
+const goodPic = ref(null)
+const sellerInfo = useSellerStore().sellerInfo
+// const addGood = async() => {
+//   const account = sellerInfo.account
+//   console.log(account, goodName.value, goodPrice.value, goodPromotion.value, goodService.value, goodPic.value)
+//   await SellerCreateGoods(account, goodName.value, goodPrice.value, goodPromotion.value, goodService.value, goodPic.value)
+//   // router.push('/SellerShop')
+// }
+const addGood = async () => {
+      const formData = new FormData();
+      const account = sellerInfo.account
+      formData.append("account", account);
+      formData.append("goodName", goodName.value);
+      formData.append("goodPrice", goodPrice.value);
+      formData.append("goodDesc", goodDesc.value);
+      formData.append("goodPromotion", goodPromotion.value);
+      formData.append("goodServe", goodService.value);
+      formData.append("goodPic", goodPic.value); // 将图片文件加入 FormData
+
+      console.log(formData)
+      // 调用 API 上传数据
+      await SellerCreateGoods(formData)
+      router.push('/SellerShop')
+        // .then((response) => {
+        //   console.log("商品上传成功", response);
+        //   // 获取后端返回的图片 URL
+        //   // imageUrl.value = response.image_url; // 设置图片 URL
+        // })
+        // .catch((error) => {
+        //   console.error("商品上传失败", error);
+        // });
     };
-  },
-  methods: {
-    addGood() {
-      // 在这里调用 SellerCreateGoods 接口
-      SellerCreateGoods(this.account, this.goodName, this.goodPrice, this.goodPromotion, this.goodService, this.goodPic)
-        .then(response => {
-          // 成功处理
-          console.log(response);
-          // 添加商品后可以重置表单
-          this.goodName = '';
-          this.goodPrice = 0;
-          this.goodPromotion = '';
-          this.goodService = '';
-          this.goodPic = null;
-        })
-        .catch(error => {
-          // 错误处理
-          console.error('Error creating goods:', error);
-          // 可以选择在这里处理错误，例如显示错误信息给用户
-        });
-    },
-    onImageChange(e) {
-      const file = e.target.files[0];
+const onImageChange = (event) => {
+      const file = event.target.files[0]; // 获取用户选择的文件
       if (file) {
-        this.goodPic = file;
+        goodPic.value = file; // 直接存储文件对象，而不是Base64编码
       }
-    }
-  }
-};
+    };
+// export default {
+//   data() {
+//     return {
+//       account:'',
+//       goodName: '',
+//       goodPrice: 0,
+//       goodPromotion: '',
+//       goodService: '',
+//       goodPic: null
+//     };
+//   },
+//   methods: {
+//     addGood() {
+//       // 在这里调用 SellerCreateGoods 接口
+      
+     
+//         .then(response => {
+//           // 成功处理
+//           console.log(response);
+//           // 添加商品后可以重置表单
+//           this.goodName = '';
+//           this.goodPrice = 0;
+//           this.goodPromotion = '';
+//           this.goodService = '';
+//           this.goodPic = null;
+//         })
+//         .catch(error => {
+//           // 错误处理
+//           console.error('Error creating goods:', error);
+//           // 可以选择在这里处理错误，例如显示错误信息给用户
+//         });
+//     },
+//     onImageChange(e) {
+//       const file = e.target.files[0];
+//       if (file) {
+//         this.goodPic = file;
+//       }
+//     }
+//   }
+// };
 </script>
 
 <style scoped>

@@ -13,7 +13,11 @@ import { onMounted, ref } from 'vue';
 const newList = ref([])
 const getNew = async () => {
     const temp = await getNewAPI()
-    newList.value = temp.result
+    newList.value = temp.data.result
+for (let i = 0; i < newList.value.length; i++)
+{
+  newList.value[i].pic = 'http://' + newList.value[i].pic.substring(7).substring(0, 14) + ':' + newList.value[i].pic.substring(7).substring(17)
+}
 } 
 onMounted(() => {getNew()})
 </script>

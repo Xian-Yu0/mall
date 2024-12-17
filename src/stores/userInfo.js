@@ -10,14 +10,14 @@ export const useBuyerStore = defineStore('buyer', () => {
     // 登录
     const setBuyerInfo = async ({ account, password }) => {
         const res = await BuyerLoginAPI(account, password)
-        if (res.result.account == '') {
+        if (res.data.result.account == '') {
             ElMessage({
                 message: '账号或密码错误',
                 type: 'error',
             })
             return -1;
         }
-        buyerInfo.value = res.result;
+        buyerInfo.value = res.data.result;
     }
     // 退出登录
     const clearBuyerInfo = () => {
@@ -38,14 +38,14 @@ export const useAdminStore = defineStore('admin', () => {
     // 登录
     const setAdminInfo = async ({ account, password }) => {
         const res = await AdminLoginAPI(account, password)
-        if (res.result.account == '') {
+        if (res.data.result.account == '') {
             ElMessage({
                 message: '账号或密码错误',
                 type: 'error',
             })
             return -1;
         }
-        adminInfo.value = res.result;
+        adminInfo.value = res.data.result;
     }
     // 退出登录
     const clearAdminInfo = () => {
@@ -65,14 +65,14 @@ export const useSellerStore = defineStore('seller', () => {
     // 登录
     const setSellerInfo = async ({ account, password }) => {
         const res = await SellerLoginAPI(account, password)
-        if (res.result.account == '') {
+        if (res.data.result.account == '') {
             ElMessage({
                 message: '账号或密码错误',
                 type: 'error',
             })
             return -1;
         }
-        sellerInfo.value = res.result;
+        sellerInfo.value = res.data.result;
     }
     // 退出登录
     const clearSellerInfo = () => {
