@@ -1,5 +1,7 @@
 
 <template>
+    <SellerNav></SellerNav>
+    <SellerHeader></SellerHeader>
   <div class="container">
     <h2>添加商品</h2>
     <form @submit.prevent="addGood">
@@ -39,6 +41,8 @@ import { SellerCreateGoods } from '@/apis/Seller';
 import { useSellerStore } from '@/stores/userInfo'
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import SellerNav from './SellerNav.vue';
+import SellerHeader from './SellerHeader.vue';
 
 const router = useRouter();
 const goodName = ref('')
@@ -131,33 +135,62 @@ const onImageChange = (event) => {
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 .form-group {
   margin-bottom: 20px;
 }
+
 label {
   display: block;
   margin-bottom: 5px;
+  font-weight: bold;
 }
-input, textarea {
+
+input,
+textarea {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
+
+input:focus,
+textarea:focus {
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
 button {
   padding: 10px 20px;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
 }
+
 .btn-primary {
-  background-color: #007BFF;
+  background-color: #007bff;
   color: #fff;
 }
+
+.btn-primary:hover {
+  background-color: #0069d9;
+}
+
 .btn-secondary {
-  background-color: #6C757D;
+  background-color: #42b07c;
   color: #fff;
-  margin-left: 10px;
+  margin-left: 450px;
+  padding: 12px 24px;
+  font-size: 12px;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
 }
 </style>
